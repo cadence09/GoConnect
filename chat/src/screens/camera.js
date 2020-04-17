@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import {
-  View, TouchableOpacity, Text, StyleSheet,Alert
+  View, TouchableOpacity, Text, StyleSheet,Alert,Platform
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 
+
 export default function TakePhoto() {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraInvo, setCameraInvo] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-  const [cameraRoll, setCameraRoll]=useState(false)
+  const [cameraRoll, setCameraRoll]=useState(null)
+  const [seletedImage, setSeletedImage]=useState(null)
+
 
   useEffect(() => {
     (async () => {
       let { status } = await Permissions.askAsync(Permissions.CAMERA);
        setHasPermission(status === 'granted');
-      
+       CameraRollPermission()
     })();
   }, []);
 
@@ -28,33 +31,61 @@ export default function TakePhoto() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  
+  async function CameraRollPermission(){
+    let {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if(status === 'granted'){
+       
+       setCameraRoll(true)
+    }else{
+      setCameraRoll(false)
+      
+      Alert.alert('Need Permission to access the camera roll in order to save a photo')
+     
+      
+    }
+
+   
+  }
   const cameraFolder= async()=>{
-    console.log("camera roll granted")
-    
-      let {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if(status === 'granted'){
-         
-         setCameraRoll(true)
-      }else{
-        
-        setCameraRoll(false)
-      }
+   console.log("what is cameroll",cameraRoll)
+      //  CameraRollPermission()
+      
+    if(cameraRoll===true){
+      console.log("camera roll granted")
       let result=await ImagePicker.launchImageLibraryAsync({
         mediaTypes:ImagePicker.MediaTypeOptions.Images
       });
-     
-    //  testing()
+    
+        if(result.cancelled===true){
+          return (
+            <View/>
+          )
+        }else{
+          seletedImage({localUri:result.uri})
+          console.log("what is uri",result.uri)
+        }
+      }else{
+      Alert.alert('Need Permission to access the camera roll, please go to system to grant the permission ')
+    }
+  
   }
   const takingPhoto=async()=>{
     if(cameraInvo){
-      // let photo=await cameraInvo.takePictureAsync();
-    //   console.log('tpaca');
+      // let photo=await cameraInvo.takePictureAsync()
+    const {uri}=await cameraInvo.takePictureAsync();
+        CameraRollPermission();
+    
     // const { uri } = await cameraInvo.takePictureAsync();
     // console.log('uri', uri);
-    // createAlbum({uri})
-    
- 
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    console.log('asset', asset);
+    MediaLibrary.createAlbumAsync('Expo', [asset])
+      .then(() => {
+        Alert.alert('Picture Added!')
+      })
+      .catch(error => {
+        Alert.alert('An Error Occurred!')
+      });
     }
     
   }
@@ -62,21 +93,7 @@ export default function TakePhoto() {
     setCameraType(cameraType===Camera.Constants.Type.back? 
       Camera.Constants.Type.front:Camera.Constants.Type.back)
   }
-//   async function createAlbum({uri}){
-//     console.log("testing111",uri)
-  
-   
-//      const asset = await MediaLibrary.createAssetAsync(uri);
-    
-//     console.log('asset', asset);
-//     MediaLibrary.createAlbumAsync('Expo', asset)
-//       .then(() => {
-//         Alert.alert('Album created!')
-//       })
-//       .catch(error => {
-//         Alert.alert('An Error Occurred!')
-//       });
-//  }
+ 
   return (
     <View style={{ flex: 1 }}>
       <Camera style={styles.Camera} type={cameraType} ref={ref=>{setCameraInvo(ref)}}>

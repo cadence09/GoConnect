@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import {
-  View, TouchableOpacity, Text, StyleSheet,Alert,Platform
+  View, TouchableOpacity, Text, StyleSheet,Alert,FlatList
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import Sharing from './sharing';
+
 
 
 export default function TakePhoto() {
@@ -14,7 +16,7 @@ export default function TakePhoto() {
   const [cameraInvo, setCameraInvo] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [cameraRoll, setCameraRoll]=useState(null)
-  const [seletedImage, setSeletedImage]=useState(null)
+  const [selectedImage, setSeletedImage]=useState(null)
 
 
   useEffect(() => {
@@ -40,11 +42,7 @@ export default function TakePhoto() {
       setCameraRoll(false)
       
       Alert.alert('Need Permission to access the camera roll in order to save a photo')
-     
-      
     }
-
-   
   }
   const cameraFolder= async()=>{
    console.log("what is cameroll",cameraRoll)
@@ -60,15 +58,23 @@ export default function TakePhoto() {
           return (
             <View/>
           )
-        }else{
-          seletedImage({localUri:result.uri})
-          console.log("what is uri",result.uri)
         }
+        setSeletedImage({localUri:result.uri})
+       
       }else{
       Alert.alert('Need Permission to access the camera roll, please go to system to grant the permission ')
     }
   
   }
+      if (selectedImage !== null) {
+          
+          // console.log("what is uri",selectedImage)
+          return (<View>
+                 {/* <FlatList data={selectedImage.localUri} renderItem={( {item})=>(<Sharing item1={item} />)}/> */}
+                  <Sharing item1={selectedImage} />
+              </View>)
+        }
+
   const takingPhoto=async()=>{
     if(cameraInvo){
       // let photo=await cameraInvo.takePictureAsync()
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   CameraIcons:{
       alignSelf: 'flex-end',
       alignItems: 'center',
-      backgroundColor: 'transparent',  
+      backgroundColor: 'skyblue',  
              
   }
 });

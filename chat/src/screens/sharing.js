@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
 import {
-    View, TouchableOpacity,TextInput, StyleSheet,Image
+    View, TouchableOpacity,TextInput, StyleSheet,Image,Button
   } from 'react-native';
 
   export default function Sharing({item1}){
       const [textValue, onChangeText] =useState('')
+
+      const sendingPhoto=()=>{
+        return console.log({uri:item1.localUri},textValue)
+      }
     return (
         <View>
-          
+         
           <Image source={{uri:item1.localUri}} style={styles.thumbNail}/>
+          {/* {console.log("uri",{uri:item1.localUri})} */}
           <TextInput 
           style={styles.customTextBox} 
           value={textValue} 
@@ -17,7 +22,9 @@ import {
           numberOfLines={4}
           placeholder={'Write a caption here'} 
           placeholderTextColor={'black'}/>
-          
+          <TouchableOpacity>
+            <Button title='Share' onPress={sendingPhoto}/>
+          </TouchableOpacity>
         </View>
     )
   }

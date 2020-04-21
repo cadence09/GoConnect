@@ -66,12 +66,15 @@ export default function TakePhoto() {
     }
   
   }
+  // const sendingPhoto=(photo,text)=>{
+  //      console.log(photo,text)
+  // }
       if (selectedImage !== null) {
           
           // console.log("what is uri",selectedImage)
           return (<View>
                  {/* <FlatList data={selectedImage.localUri} renderItem={( {item})=>(<Sharing item1={item} />)}/> */}
-                  <Sharing item1={selectedImage} />
+                  <Sharing item1={selectedImage}/>
               </View>)
         }
 

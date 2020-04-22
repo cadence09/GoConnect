@@ -22,6 +22,8 @@
         "react"
     ],
     "rules": {
-    "prefer-single": 1
+    "prefer-single": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-console":"off"
     }
 }

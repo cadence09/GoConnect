@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
   Text, View, Button, TextInput, StyleSheet, TouchableOpacity,

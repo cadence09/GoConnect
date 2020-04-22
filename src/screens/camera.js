@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import {
@@ -22,6 +23,7 @@ export default function TakePhoto() {
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       setHasPermission(status === 'granted');
+      // eslint-disable-next-line no-use-before-define
       CameraRollPermission();
     })();
   }, []);
@@ -90,7 +92,7 @@ export default function TakePhoto() {
           Alert.alert('Picture Added!');
         })
         .catch((error) => {
-          Alert.alert('An Error Occurred!');
+          Alert.alert('An Error Occurred!', error);
         });
     }
   };

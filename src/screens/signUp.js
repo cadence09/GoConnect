@@ -22,6 +22,7 @@ export default function SignUp({ navigation }) {
         value={name}
         onChangeText={(text) => setName(text)}
         placeholder="Full Name"
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.inputBox}

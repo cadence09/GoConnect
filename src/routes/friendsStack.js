@@ -3,8 +3,8 @@ import Friends from '../screens/friends';
 
 const screens = {
   Friends: {
-    screen: Friends,
-  },
+    screen: Friends
+  }
 };
 
 const FriendsStack = createStackNavigator(screens);

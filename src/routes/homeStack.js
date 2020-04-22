@@ -4,12 +4,12 @@ import Home from '../screens/home';
 import Friends from '../screens/friends';
 import ShareMessage from '../screens/shareMessage';
 import TakePhoto from '../screens/camera';
-import Login from '../screens/login';
-import SignUp from '../screens/signUp';
+import LogIn from '../screens/LogIn';
+import SignUp from '../screens/SignUp';
 
 const screens = {
   Login: {
-    screen: Login,
+    screen: LogIn,
   },
   SignUp: {
     screen: SignUp,
@@ -29,14 +29,16 @@ const screens = {
   },
   Friends: {
     screen: Friends,
-  },
+    headerStyle: { backgroundColor: 'pink' }
+  }
 };
 const HomeStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: 'yellow',
     headerStyle: { backgroundColor: 'blue' },
   },
-});
-
+  headerStyle: { backgroundColor: 'blue' }
+},
+{ initialRouteName: 'LogIn' });
 export default HomeStack;
 // export default createAppContainer(HomeStack)

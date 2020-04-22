@@ -6,11 +6,11 @@ import FriendsStack from './friendsStack';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Home: {
-    screen: HomeStack,
+    screen: HomeStack
   },
   Friends: {
-    screen: FriendsStack,
-  },
+    screen: FriendsStack
+  }
 });
 
 export default createAppContainer(RootDrawerNavigator);

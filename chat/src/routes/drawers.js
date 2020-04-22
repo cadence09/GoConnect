@@ -7,15 +7,9 @@ import FriendsStack from './friendsStack';
 const RootDrawerNavigator = createDrawerNavigator({
   Home: {
     screen: HomeStack,
-    // navigationOptions:{
-    //     drawerLockMode: 'locked-closed'
-    //   }
   },
   Friends: {
     screen: FriendsStack,
-    // navigationOptions:{
-    //     drawerLockMode: 'locked-closed'
-    //   }
   },
 });
 

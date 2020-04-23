@@ -7,6 +7,7 @@ import {
   MESSAGE_SENDER_ID,
   APP_ID
 } from 'react-native-dotenv';
+import 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: API_KEY,
@@ -20,5 +21,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const Firebase = firebase.initializeApp(firebaseConfig);
+export const firebaseDB = firebase.firestore();
+
+// firebaseDB.settings({
+//   Timestamp: true
+// });
 
 export default Firebase;

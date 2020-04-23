@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import {
-  View, TouchableOpacity, Text, StyleSheet, Alert, FlatList,
+  View, TouchableOpacity, Text, StyleSheet, Alert, FlatList
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -135,6 +135,5 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'skyblue',
-
   },
 });

@@ -1,16 +1,14 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
-  Text, View, Button, TextInput, StyleSheet, TouchableOpacity,
+  View, TextInput, StyleSheet, TouchableOpacity, Text, Button,
 } from 'react-native';
-import Firebase from '../../config/firebase';
+import Firebase from '../../config/Firebase';
 
-export default function Login({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const pressButton = () => {
-    navigation.navigate('SignUp');
-  };
+function LogIn({ navigation }) {
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
+
   const handleLogin = () => {
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)
@@ -22,18 +20,24 @@ export default function Login({ navigation }) {
       <TextInput
         style={styles.inputBox}
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={onChangeEmail}
         placeholder="Email"
         autoCapitalize="none"
       />
-      <TextInput style={styles.inputBox} value={password} onChangeText={(text) => setPassword(text)} placeholder="Password" secureTextEntry />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TextInput
+        style={styles.inputBox}
+        value={password}
+        onChangeText={onChangePassword}
+        placeholder="Password"
+        secureTextEntry
+      />
+      <TouchableOpacity style={styles.button} onPress={() => handleLogin()}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <Button title="Don't have an account yet? Sign up" onPress={pressButton} />
-      {/* <Button title="testing" onPress={pressTesting}></Button> */}
-
+      <Button
+        title="Don't have an account yet? Sign up"
+        onPress={() => navigation.navigate('SignUp')}
+      />
     </View>
   );
 }
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   inputBox: {
     width: '85%',
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderColor: '#d3d3d3',
     borderBottomWidth: 1,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   button: {
     marginTop: 30,
@@ -63,14 +67,16 @@ const styles = StyleSheet.create({
     borderColor: '#F6820D',
     borderWidth: 1,
     borderRadius: 5,
-    width: 200,
+    width: 200
   },
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#fff'
   },
   buttonSignup: {
-    fontSize: 12,
-  },
+    fontSize: 12
+  }
 });
+
+export default LogIn;

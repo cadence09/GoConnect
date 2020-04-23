@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  StyleSheet, View, Text, Button, FlatList, TouchableOpacity,
+  View, Text, TouchableOpacity,
 } from 'react-native';
 
-export default function ShareMessage() {
+export default function ShareMessage({ navigation }) {
   const pressHandler = () => {
     navigation.goBack();
   };

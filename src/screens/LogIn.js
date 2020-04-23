@@ -1,29 +1,21 @@
-/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, TouchableOpacity, Text
+  View, TextInput, StyleSheet, TouchableOpacity, Text, Button,
 } from 'react-native';
 import Firebase from '../../config/Firebase';
 
-function Signup({ navigation }) {
+function LogIn({ navigation }) {
   const [email, onChangeEmail] = useState('');
-  const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
 
-  const handleSignUp = () => {
+  const handleLogin = () => {
     Firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then(() => navigation.navigate('Home'))
       .catch((error) => console.log(error));
   };
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.inputBox}
-        value={name}
-        onChangeText={onChangeName}
-        placeholder="Full Name"
-      />
       <TextInput
         style={styles.inputBox}
         value={email}
@@ -38,9 +30,13 @@ function Signup({ navigation }) {
         placeholder="Password"
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Signup</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleLogin()}>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      <Button
+        title="Don't have an account yet? Sign up"
+        onPress={() => navigation.navigate('SignUp')}
+      />
     </View>
   );
 }
@@ -66,8 +62,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#FFA611',
-    borderColor: '#FFA611',
+    backgroundColor: '#F6820D',
+    borderColor: '#F6820D',
     borderWidth: 1,
     borderRadius: 5,
     width: 200
@@ -82,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signup;
+export default LogIn;

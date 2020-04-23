@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
-  View, TouchableOpacity, TextInput, StyleSheet, Image, Button,
+  View, TouchableOpacity, TextInput, StyleSheet, Image, Button
 } from 'react-native';
 
 export default function Sharing({ item1 }) {
@@ -41,5 +41,5 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     height: 100,
-  },
+  }
 });

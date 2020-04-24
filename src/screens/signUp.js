@@ -22,29 +22,36 @@ function Signup({ navigation }) {
   const [password, onChangePassword] = useState('');
 
   const handleSignUp = () => {
-    try {
-      const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
+    // try {
+    //   const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
 
       // var user = Firebase.auth().currentUser;
       // eslint-disable-next-line prefer-arrow-callback
-      Firebase.auth().onAuthStateChanged(function(user) {
-        if (response) {
-          console.log(user);
-          const newUser = {
-            uid: user.uid,
-            email: user.email,
-            userName: name
+      // Firebase.auth().onAuthStateChanged(function(user){
 
-          };
-          db.collection('users')
-            .doc(newUser.uid)
-            .set(newUser);
-        }
-      });
-      navigation.navigate('Home');
-    } catch (error) {
-      console.log(error);
-    }
+    //     Firebase.auth().onAuthStateChanged(function(user) {
+    //     if (response) {
+    //       console.log(user);
+    //       const newUser = {
+    //         uid: user.uid,
+    //         email: user.email,
+    //         userName: name
+         
+
+    //       };
+    //       db.collection('users')
+    //         .doc(newUser.uid)
+    //         .set(newUser);
+    //     }
+    //   });
+    //   navigation.navigate('Home');
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    Firebase.auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(() => navigation.navigate('Home'))
+    .catch((error) => console.log(error));
   };
 
   return (

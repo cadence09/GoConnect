@@ -17,14 +17,16 @@ export default function Home({ navigation }) {
 
     <View style={styles.container}>
       <TouchableOpacity onPress={pressCamera}>
-        <FontAwesome name="camera-retro" />
+        <FontAwesome name="camera-retro" size={60}/>
         {/* <Text>Camera icon</Text> */}
         {/* <TakePhoto/> */}
       </TouchableOpacity>
-      <TouchableOpacity onPress={pressHandler}>
-        <Text>trigger a new page with a thumbnail photo that can share and write description</Text>
-      </TouchableOpacity>
-
+      <View>
+        <TouchableOpacity onPress={pressHandler}>
+          <FontAwesome name="envelope-o" size={60} />
+        </TouchableOpacity>
+          <Text>Incoming Message </Text>
+      </View>
     </View>
 
   );

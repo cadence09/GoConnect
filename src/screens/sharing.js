@@ -7,7 +7,17 @@ import {
 export default function Sharing({ item1 }) {
   const [textValue, onChangeText] = useState('');
 
-  const sendingPhoto = () => console.log({ uri: item1.localUri }, textValue);
+  const sendingPhoto = () => {
+    console.log({ uri: item1.localUri }, textValue);
+    const sendMessage={
+      uri: item1.localUri, 
+      text: textValue
+    }
+    console.log("uri and text", sendMessage.uri, sendMessage.text)
+    if (sendMessage !== null){
+       const test= Math.random(uid)
+    }
+  }
   return (
     <View>
 

@@ -4,15 +4,7 @@ import {
   View, TextInput, StyleSheet, TouchableOpacity, Text, Button,
 } from 'react-native';
 import Firebase, {db} from '../../config/Firebase';
-import {decode, encode} from 'base-64'
 
-if (!global.btoa) {
-    global.btoa = encode;
-}
-
-if (!global.atob) {
-    global.atob = decode;
-}
 
 function LogIn({ navigation }) {
   const [email, onChangeEmail] = useState('');

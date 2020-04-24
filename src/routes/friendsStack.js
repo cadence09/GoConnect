@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Friends from '../screens/friends';
+import Friends from '../screens/Friends';
 
 const screens = {
   Friends: {

@@ -1,9 +1,9 @@
 import { createStackNavigator } from 'react-navigation-stack';
 // import {createAppContainer} from 'react-navigation'
-import Home from '../screens/home';
-import Friends from '../screens/friends';
-import ShareMessage from '../screens/shareMessage';
-import TakePhoto from '../screens/camera';
+import Home from '../screens/Home';
+import Friends from '../screens/Friends';
+import ShareMessage from '../screens/ShareMessage';
+import TakePhoto from '../screens/Camera';
 import LogIn from '../screens/Login';
 import SignUp from '../screens/SignUp';
 

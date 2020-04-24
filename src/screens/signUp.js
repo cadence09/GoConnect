@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { decode, encode } from 'base-64';
 // import Firebase, { db } from '../../config/Firebase';
-import Firebase, {db} from '../../config/firebase';
+import Firebase, {db} from '../../config/Firebase';
 
 
 if (!global.btoa) {

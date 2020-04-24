@@ -8,7 +8,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import Sharing from './sharing';
+import Sharing from './Sharing';
 
 
 export default function TakePhoto() {

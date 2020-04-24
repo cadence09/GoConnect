@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
-import HomeStack from './homeStack';
-import FriendsStack from './friendsStack';
+import HomeStack from './HomeStack';
+import FriendsStack from './FriendsStack';
 // import {createAppContainer} from 'react-navigation'
 
 const RootDrawerNavigator = createDrawerNavigator({

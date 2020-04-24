@@ -7,5 +7,6 @@ const screens = {
   }
 };
 
+
 const FriendsStack = createStackNavigator(screens);
 export default FriendsStack;

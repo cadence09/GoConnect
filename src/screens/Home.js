@@ -6,6 +6,7 @@ import {
 // import TakePhoto from './camera';
 import { FontAwesome } from '@expo/vector-icons';
 
+
 export default function Home({ navigation }) {
   const pressHandler = () => {
     navigation.navigate('ShareMessage');
@@ -37,3 +38,4 @@ const styles = StyleSheet.create({
     padding: 24,
   },
 });
+

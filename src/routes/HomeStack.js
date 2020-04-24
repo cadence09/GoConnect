@@ -42,3 +42,4 @@ const HomeStack = createStackNavigator(screens, {
 { initialRouteName: 'LogIn' });
 export default HomeStack;
 // export default createAppContainer(HomeStack)
+

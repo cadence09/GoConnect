@@ -3,6 +3,7 @@ import {
   View, TextInput, StyleSheet, TouchableOpacity, Text
 } from 'react-native';
 import { decode, encode } from 'base-64';
+import Firebase, { db } from '../../config/Firebase';
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -11,7 +12,7 @@ if (!global.atob) {
   global.atob = decode;
 }
 // import Firebase from '../../config/Firebase';
-import Firebase, { db } from '../../config/Firebase';
+
 
 function Signup({ navigation }) {
   const [email, onChangeEmail] = useState('');
@@ -110,3 +111,4 @@ const styles = StyleSheet.create({
 });
 
 export default Signup;
+

@@ -1,60 +1,20 @@
-/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
   View, TextInput, StyleSheet, TouchableOpacity, Text
 } from 'react-native';
-import { decode, encode } from 'base-64';
-// import Firebase, { db } from '../../config/Firebase';
-import Firebase, {db} from '../../config/Firebase';
+import Firebase from '../../config/Firebase';
 
-
-if (!global.btoa) {
-  global.btoa = encode;
-}
-
-if (!global.atob) {
-  global.atob = decode;
-}
-
-
-function SignUp({ navigation }) {
+function Signup({ navigation }) {
   const [email, onChangeEmail] = useState('');
   const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
 
   const handleSignUp = () => {
-    // try {
-    //   const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
-
-      // var user = Firebase.auth().currentUser;
-      // eslint-disable-next-line prefer-arrow-callback
-      // Firebase.auth().onAuthStateChanged(function(user){
-
-    //     Firebase.auth().onAuthStateChanged(function(user) {
-    //     if (response) {
-    //       console.log(user);
-    //       const newUser = {
-    //         uid: user.uid,
-    //         email: user.email,
-    //         userName: name
-         
-
-    //       };
-    //       db.collection('users')
-    //         .doc(newUser.uid)
-    //         .set(newUser);
-    //     }
-    //   });
-    //   navigation.navigate('Home');
-    // } catch (error) {
-    //   console.log(error);
-    // }
     Firebase.auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(() => navigation.navigate('Home'))
-    .catch((error) => console.log(error));
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => navigation.navigate('Home'))
+      .catch((error) => console.log(error));
   };
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -67,7 +27,6 @@ function SignUp({ navigation }) {
         style={styles.inputBox}
         value={email}
         onChangeText={onChangeEmail}
-        // onChangeText={ email => useDispatch(updateEmail(email))}
         placeholder="Email"
         autoCapitalize="none"
       />
@@ -75,7 +34,6 @@ function SignUp({ navigation }) {
         style={styles.inputBox}
         value={password}
         onChangeText={onChangePassword}
-        // onChangeText={ email => useDispatch(updatePassword(email))}
         placeholder="Password"
         secureTextEntry
       />
@@ -123,5 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SignUp;
-
+export default Signup;

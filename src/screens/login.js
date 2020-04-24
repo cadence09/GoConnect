@@ -1,10 +1,8 @@
-/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import {
   View, TextInput, StyleSheet, TouchableOpacity, Text, Button,
 } from 'react-native';
-import Firebase, {db} from '../../config/Firebase';
-
+import Firebase from '../../config/Firebase';
 
 function LogIn({ navigation }) {
   const [email, onChangeEmail] = useState('');
@@ -15,23 +13,6 @@ function LogIn({ navigation }) {
       .signInWithEmailAndPassword(email, password)
       .then(() => navigation.navigate('Home'))
       .catch((error) => console.log(error));
-    // try{
-    //  const response= Firebase.auth().signInWithEmailAndPassword(email, password);
-    //  var user = Firebase.auth().currentUser;
-    //  if (response){
-    //    console.log(user);
-    //    const newUser = {
-    //     uid: user.uid,
-    //     email: user.email
-    //  }
-    //    db.collection('users')
-    //    .doc(newUser.uid)
-    //    .set(newUser)
-    //  }
-    // }catch (error){
-    //   console.log(error)
-    // };
-
   };
   return (
     <View style={styles.container}>

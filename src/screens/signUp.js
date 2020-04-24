@@ -4,7 +4,8 @@ import {
   View, TextInput, StyleSheet, TouchableOpacity, Text
 } from 'react-native';
 import { decode, encode } from 'base-64';
-import Firebase, { db } from '../../config/Firebase';
+// import Firebase, { db } from '../../config/Firebase';
+import Firebase, {db} from '../../config/firebase';
 
 
 if (!global.btoa) {
@@ -16,7 +17,7 @@ if (!global.atob) {
 }
 
 
-function Signup({ navigation }) {
+function SignUp({ navigation }) {
   const [email, onChangeEmail] = useState('');
   const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
@@ -122,5 +123,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signup;
+export default SignUp;
 

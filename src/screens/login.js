@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   View, TextInput, StyleSheet, TouchableOpacity, Text, Button,
 } from 'react-native';
-import Firebase, {db} from '../../config/Firebase';
+import Firebase, {db} from '../../config/firebase';
 
 
 function LogIn({ navigation }) {

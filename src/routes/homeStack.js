@@ -4,7 +4,7 @@ import Home from '../screens/Home';
 import Friends from '../screens/Friends';
 import ShareMessage from '../screens/ShareMessage';
 import TakePhoto from '../screens/Camera';
-import LogIn from '../screens/Login';
+import LogIn from '../screens/LogIn';
 import SignUp from '../screens/SignUp';
 
 const screens = {

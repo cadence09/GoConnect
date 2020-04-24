@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import {
   View, TextInput, StyleSheet, TouchableOpacity, Text
 } from 'react-native';
-import Firebase from '../../config/Firebase';
+import { decode, encode } from 'base-64';
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
+// import Firebase from '../../config/Firebase';
+import Firebase, { db } from '../../config/Firebase';
 
 function Signup({ navigation }) {
   const [email, onChangeEmail] = useState('');
@@ -10,10 +19,29 @@ function Signup({ navigation }) {
   const [password, onChangePassword] = useState('');
 
   const handleSignUp = () => {
-    Firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => navigation.navigate('Home'))
-      .catch((error) => console.log(error));
+    try {
+      const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
+
+      // var user = Firebase.auth().currentUser;
+      // eslint-disable-next-line prefer-arrow-callback
+      Firebase.auth().onAuthStateChanged(function(user) {
+        if (response) {
+          console.log(user);
+          const newUser = {
+            uid: user.uid,
+            email: user.email,
+            userName: name
+
+          };
+          db.collection('users')
+            .doc(newUser.uid)
+            .set(newUser);
+        }
+      });
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View style={styles.container}>

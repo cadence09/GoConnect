@@ -3,20 +3,54 @@ import React, { useState } from 'react';
 import {
   View, TouchableOpacity, TextInput, StyleSheet, Image, Button
 } from 'react-native';
+import { decode, encode } from 'base-64';
+import Firebase, { db } from '../../config/Firebase';
+if (!global.btoa) {
+  global.btoa = encode;
+}
 
+if (!global.atob) {
+  global.atob = decode;
+}
 export default function Sharing({ item1 }) {
   const [textValue, onChangeText] = useState('');
 
   const sendingPhoto = () => {
-    console.log({ uri: item1.localUri }, textValue);
-    const sendMessage={
-      uri: item1.localUri, 
-      text: textValue
-    }
-    console.log("uri and text", sendMessage.uri, sendMessage.text)
-    if (sendMessage !== null){
-       const test= Math.random(uid)
-    }
+    // const events = Firebase.firestore().collection('users')
+    // events.get().then((querySnapshot) => {
+    //     const tempDoc = querySnapshot.docs.map((doc) => {
+    //       return doc.data().email
+    //     })
+    
+    const currentUser = Firebase.auth().currentUser;
+     const usersData = Firebase.firestore().collection('users')
+     const sendToUser = Math.floor(Math.random() * 3);
+     usersData.get().then((querySnapshot) =>{
+        const getUserData = querySnapshot.docs.map((doc)=>{
+          return doc.data()
+        })
+        console.log("what is userData", getUserData, "currentUser", currentUser);
+       for (let i=0; i<getUserData.length; i++){
+         if(currentUser.email === getUserData[i].email){
+        const sendMessage = {
+            uri: item1.localUri,
+            text: textValue,
+            randomNumber: getUserData[i].randomNum,
+            sender: currentUser.email,
+            receiver: sendToUser,
+            senderName: getUserData[i].userName
+          }
+           if(sendMessage !==null){
+          console.log("what is sendMessage1", sendMessage)
+          db.collection('photoMessage')
+              .doc(currentUser.uid)
+              .set(sendMessage)
+           }
+         }
+       }
+   
+     })
+   
   }
   return (
     <View>

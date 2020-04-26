@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, TouchableOpacity, Text
+  View, TextInput, StyleSheet, TouchableOpacity, Text, Alert
 } from 'react-native';
 import { decode, encode } from 'base-64';
 import Firebase, { db } from '../../config/Firebase';
@@ -19,31 +19,41 @@ function Signup({ navigation }) {
   const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     try {
-      const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
-
-      // var user = Firebase.auth().currentUser;
-      // eslint-disable-next-line prefer-arrow-callback
-      Firebase.auth().onAuthStateChanged(function(user) {
-        if (response) {
-          console.log(user);
-          const newUser = {
-            uid: user.uid,
-            email: user.email,
-            userName: name
-
-          };
-          db.collection('users')
-            .doc(newUser.uid)
-            .set(newUser);
-        }
-      });
+      const response = await Firebase.auth().createUserWithEmailAndPassword(email, password);
+      console.log('what is response', response);
+      const acctNum = Math.floor(Math.random() * 3);
+      console.log(acctNum);
+      const newUser = {
+        uid: response.user.uid,
+        email: response.user.email,
+        userName: name,
+        randomNum: acctNum
+      };
+      // eslint-disable-next-line no-unused-expressions
+      console.log('new user', newUser)
+      / db.collection('users')
+        .doc(newUser.uid)
+        .set(newUser);
       navigation.navigate('Home');
     } catch (error) {
       console.log(error);
+      return Alert.alert('The email has registed!');
     }
   };
+
+  // const handleSignUp = () => {
+    
+  //   const events = Firebase.firestore().collection('users')
+  // events.get().then((querySnapshot) => {
+  //     const tempDoc = querySnapshot.docs.map((doc) => {
+  //       return doc.data().email
+  //     })
+   
+  
+  // }
+
   return (
     <View style={styles.container}>
       <TextInput

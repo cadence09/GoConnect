@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, TouchableOpacity, Image, StyleSheet
+  View, Text, TouchableOpacity, Image, StyleSheet, Alert
 } from 'react-native';
 import Firebase, { db } from '../../config/Firebase';
 
@@ -60,34 +60,74 @@ export default function ShareMessage({ navigation }) {
       // const img = result.uri;
       // console.log("what image",img)
       // let result1= fetch(img)
-      // console.log("what is result1",result1)
+      // console.log("what is result1",result)
       
       console.log("what is result", result)
       if (result.length !== 0){
-       return setReceivingMessage(...result)
-      // return setReceivingMessage(result,...result )
+       return setReceivingMessage([...result])
+      //  return setReceivingMessage(data =>{
+      //     console.log(data)
+      // })
       }
-      else{
-        return setReceivingMessage('No Message')
-      }
+      // else{
+      //   return setReceivingMessage('No Message')
+      // }
   })
   }
-   
-  let message1=(<View> 
-    <Text> Message from {receivingMessage.senderName}</Text>
-    <Image source={{uri:receivingMessage.uri}} style={styles.thumbNail}/>
-    <Text> {receivingMessage.text} </Text>
-  </View>)
-   let message2= (<Text>no message received </Text>)
+    {console.log("what is receivingMessage",receivingMessage,receivingMessage.length )}
+//   let message1=(<View> 
+//     <Text> Message from {receivingMessage.senderName}</Text>
+//     <Image source={{uri:receivingMessage.uri}} style={styles.thumbNail}/>
+//     <Text> {receivingMessage.text} </Text>
+//   </View>)
+//    let message2= (<Text>no message received </Text>)
 
- console.log("waht is receivingMessage", receivingMessage)
+//  console.log("waht is receivingMessage", receivingMessage)
+let Message;
+if(receivingMessage.length === 0) {
+  Message =(<Text> No Message</Text>);
+}
+  else {
+    Message=receivingMessage.map(data=>  (
+  <View>
+<Text> Message from {data.senderName}</Text>
+<Image source={{uri:data.uri}} style={styles.thumbNail}/>
+<Text> {data.text} </Text>
+  </View>
+ ) )}
   return (
     <View>
-      { console.log("wat is length", receivingMessage.length, typeof receivingMessage)}
-      {receivingMessage.length === 10 ? message2: message1}
+      {/* { console.log("wat is length", receivingMessage.length, typeof receivingMessage)}
+      {receivingMessage.length === 10 ? message2: message1} */}
        {/* {typeof receivingMessage === "object" ? message1: message2}  */}
          {/* {receivingMessage === "No Message" ? console.log(true): message1}  */}
-    
+        {/* { receivingMessage.map(data=>{
+          console.log("what is data", data.text)
+        })} */}
+        {/* {receivingMessage !== "No Message" ? receivingMessage.map(data=>{
+          console.log("what is data",data)
+        })
+        } */}
+          
+         
+        {/* {receivingMessage.map(data=> data !== "No Message"? ( */}
+
+      {/* First method with if/esle */}
+          {/* {Message} */}
+
+      {/* Second method with tanery operator */}
+       {receivingMessage.length === 0 ? (<Text> No Message</Text>): 
+          receivingMessage.map(data=>  (
+          <View>
+       <Text> Message from {data.senderName}</Text>
+       <Image source={{uri:data.uri}} style={styles.thumbNail}/>
+      <Text style={styles.message}> {data.text}  </Text>
+          </View>
+         ) )}
+         
+         
+        {/*  (<Text>No Message</Text>))} */}
+         
     </View>
   )
 }

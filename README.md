@@ -24,7 +24,8 @@ The code formats in ESLint
   ##Configureation of Firebase
     1. Create a Firebase acccount 
     2. Copy a your own Firebase configuration key to replace the following in cofig/Firebase.js:
-          `const firebaseConfig = {
+       ```
+          const firebaseConfig = {
               apiKey: <Your own API_KEY>,
               authDomain: <Your own authDomain>,
               databaseURL: <Your own database URL>,
@@ -32,6 +33,6 @@ The code formats in ESLint
               storageBucket: '',
               messagingSenderId: <Your own message sender id>,
               appId: <Your app id>
-           };`
-      
+           };
+      ```
         

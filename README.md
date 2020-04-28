@@ -21,7 +21,7 @@ The code formats in ESLint
   * Firebase
   
 # API Reference
-  ##Configureation of Firebase
+  ## Configureation of Firebase
     1. Create a Firebase acccount 
     2. Copy a your own Firebase configuration key to replace the following in cofig/Firebase.js:
        ```

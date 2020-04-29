@@ -12,7 +12,8 @@ if (!global.btoa) {
 if (!global.atob) {
   global.atob = decode;
 }
-export default function Sharing({ item1 }) {
+
+export default function Sharing({ navigation, item1 }) {
   const [textValue, onChangeText] = useState('');
 
   const sendingPhoto = () => {
@@ -40,20 +41,26 @@ export default function Sharing({ item1 }) {
             receiver: sendToUser,
             senderName: getUserData[i].userName
           };
-          if (getUserData[i].randomNum === sendMessage.receiver){
+          if (getUserData[i].randomNum === sendMessage.receiver) {
             // console.log(getUserData[i].randomNum, sendMessage.receiver )
-             Alert.alert('Oop sorry, something wrong, please reshare it!')
-           }else if(sendMessage !==null){
+            Alert.alert('Oop sorry, something wrong, please reshare it!')
+          } else if (sendMessage !== null) {
           // console.log("what is sendMessage1", sendMessage,"messageLength", messageLength)
-          db.collection('photoMessage')
+            db.collection('photoMessage')
               .doc()
-              .set(sendMessage)
-           }
-         }
-       }
-     })
+              .set(sendMessage);
+            Alert.alert('Photo shared');
+            navigation.navigate('Home');
+          }
+        }
+      }
+    });
+  };
 
-  }
+  // const sendingPhoto = () => {
+  //   navigation.navigate('Home');
+  // };
+
   return (
     <View>
 
@@ -76,17 +83,16 @@ export default function Sharing({ item1 }) {
 }
 
 const styles = StyleSheet.create({
-  thumbNail: {
-    width: 300,
-    height: 300,
-    resizeMode: 'contain',
-  },
   customTextBox: {
     borderColor: 'black',
     borderRadius: 10,
     borderStyle: 'solid',
     borderWidth: 1,
     height: 100,
+  },
+  thumbNail: {
+    height: 300,
+    resizeMode: 'contain',
+    width: 300,
   }
 });
-

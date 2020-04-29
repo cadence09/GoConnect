@@ -6,6 +6,7 @@ import ShareMessage from '../screens/ShareMessage';
 import TakePhoto from '../screens/Camera';
 import LogIn from '../screens/LogIn';
 import SignUp from '../screens/SignUp';
+import Sharing from '../screens/Sharing';
 
 const screens = {
   Login: {
@@ -23,6 +24,9 @@ const screens = {
   },
   TakePhoto: {
     screen: TakePhoto,
+  },
+  Sharing: {
+    screen: Sharing,
   },
   ShareMessage: {
     screen: ShareMessage,

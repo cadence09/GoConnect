@@ -12,7 +12,7 @@ import Sharing from './Sharing';
 
 
 
-export default function TakePhoto() {
+export default function TakePhoto({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraInvo, setCameraInvo] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -73,7 +73,7 @@ export default function TakePhoto() {
     return (
       <View>
         {/* <FlatList data={selectedImage.localUri} renderItem={( {item})=>(<Sharing item1={item} />)}/> */}
-        <Sharing item1={selectedImage} />
+        <Sharing item1={selectedImage} navigation={navigation} />
       </View>
     );
   }

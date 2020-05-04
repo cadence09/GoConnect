@@ -1,44 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, Image, StyleSheet,
+  View, Text, Image, StyleSheet, ScrollView, Button, Alert
 } from 'react-native';
 import Firebase, { db } from '../../config/Firebase';
 
+
 export default function ShareMessage() {
   // const [receivingMessage, setReceivingMessage]= useState([])
-  const [receivingMessage, setReceivingMessage]= useState([])
+  const [receivingMessage, setReceivingMessage] = useState([]);
+  const [currentUserName, setUserName] = useState('');
+  const { currentUser } = Firebase.auth();
+  const userData = Firebase.firestore().collection('users');
   // const pressHandler = () => {
   //   navigation.goBack();
   // };
-    // const events = Firebase.firestore().collection('users')
-    // events.get().then((querySnapshot) => {
-    //     const tempDoc = querySnapshot.docs.map((doc) => {
-    //       return doc.data().email
-    //     })
+  // const events = Firebase.firestore().collection('users')
+  // events.get().then((querySnapshot) => {
+  //     const tempDoc = querySnapshot.docs.map((doc) => {
+  //       return doc.data().email
+  //     })
+
   useEffect(() => {
-    const getPhotoMessage = Firebase.firestore().collection('photoMessage')
+    const getPhotoMessage = Firebase.firestore().collection('photoMessage');
     getPhotoMessage.get().then((querySnapshot) => {
-      const tempDoc = querySnapshot.docs.map((doc) => {
-        return doc.data();
-      });
-        // console.log("what is photomessage", tempDoc)
+      const tempDoc = querySnapshot.docs.map((doc) => doc.data());
+      // console.log("what is photomessage", tempDoc)
       showPhotoMessage(tempDoc);
     });
   }, []);
 
   function showPhotoMessage(notifications) {
   //  console.log("what is notificatin" ,notifications)
-    let result = [];
+    const result = [];
     let currentRan = 0;
-    const currentUser = Firebase.auth().currentUser;
-    const userData = Firebase.firestore().collection('users');
+
     userData.get().then((userQuerySnapshot) => {
-      const userDoc = userQuerySnapshot.docs.map((doc) => {
-        return doc.data();
-      });
+      const userDoc = userQuerySnapshot.docs.map((doc) => doc.data());
       for (let j = 0; j < userDoc.length; j++) {
         if (currentUser.email === userDoc[j].email) {
           currentRan = userDoc[j].randomNum;
+          console.log('whati i the name', userDoc[j].userName);
+          setUserName(userDoc[j].userName);
         }
       }
       for (let i = 0; i < notifications.length; i++) {
@@ -55,6 +57,29 @@ export default function ShareMessage() {
       }
     });
   }
+
+
+  const addFriendButton = (index, photoInfo) => {
+    // const getPhotoMessage= Firebase.firestore().collection("photoMessage")
+    // console.log("what is photo", receivingMessage)
+    console.log('what is current photo ', index, photoInfo);
+    // console.log("what is currentname", currentUserName)
+    // check who send this message
+    const friendsRequestInfo = {
+      photoSenderEmail: photoInfo.sender,
+      photoSenderName: photoInfo.senderName,
+      FriendsRequestUserName: currentUserName,
+      FriendsRequestUserEmail: currentUser.email
+    };
+    console.log(friendsRequestInfo);
+    db.collection('beFriendsRequest')
+      .doc()
+      .set(friendsRequestInfo);
+
+    Alert.alert('Friend request sent!');
+  };
+
+
   // let Message;
   // if (receivingMessage.length === 0) {
   //   Message = (<Text> No Message</Text>);
@@ -67,21 +92,39 @@ export default function ShareMessage() {
   //     </View>
   //   ))
   // }
+  console.log('what is receimessage', receivingMessage);
   return (
     <View>
 
       {/* First method with if/esle */}
-          {/* {Message} */}
+      {/* {Message} */}
 
       {/* Second method with tanery operator */}
-      {receivingMessage.length === 0 ? (<Text> No Message</Text>): 
-        receivingMessage.map(data => (
+      {receivingMessage.length === 0 ? (<Text> No Message</Text>)
+        : receivingMessage.map((data, i) => (
           <View>
-            <Text> Message from {data.senderName}</Text>
-            <Image source={{uri:data.uri}} style={styles.thumbNail}/>
-            <Text style={styles.message}> {data.text}  </Text>
+            <ScrollView>
+
+              <View key={i + 1}>
+                <Text>{i + 1}</Text>
+                <Image source={{ uri: data.uri }} style={styles.thumbNail} />
+                <Text>
+                  {' '}
+                  Message from
+                  {data.senderName}
+                </Text>
+                <Text style={styles.message}>
+                  {' '}
+                  {data.text}
+                  {' '}
+                </Text>
+                <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
+              </View>
+            </ScrollView>
           </View>
+
         ))}
+
     </View>
   );
 }
@@ -89,13 +132,14 @@ export default function ShareMessage() {
 
 const styles = StyleSheet.create({
   message: {
-    top: -30
+    top: 0
   },
   thumbNail: {
-    height: 300,
+    height: 100,
     resizeMode: 'contain',
-    top: -40,
+    top: 0,
     width: 300,
-  }
+  },
+
 
 });

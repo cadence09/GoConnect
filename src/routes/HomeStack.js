@@ -7,6 +7,7 @@ import TakePhoto from '../screens/Camera';
 import LogIn from '../screens/LogIn';
 import SignUp from '../screens/SignUp';
 import Sharing from '../screens/Sharing';
+import FriendsRequest from '../screens/FriendsRequest';
 
 const screens = {
   Login: {
@@ -31,6 +32,9 @@ const screens = {
   ShareMessage: {
     screen: ShareMessage,
   },
+  FriendsRequest: {
+    screen: FriendsRequest,
+  },
   Friends: {
     screen: Friends,
     headerStyle: { backgroundColor: 'pink' }
@@ -46,4 +50,3 @@ const HomeStack = createStackNavigator(screens, {
 { initialRouteName: 'LogIn' });
 export default HomeStack;
 // export default createAppContainer(HomeStack)
-

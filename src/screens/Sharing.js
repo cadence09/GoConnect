@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { decode, encode } from 'base-64';
 import Firebase, { db } from '../../config/Firebase';
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -13,7 +14,7 @@ if (!global.atob) {
   global.atob = decode;
 }
 
-export default function Sharing({ navigation, item1 }) {
+export default function Sharing({ navigation, item1, item2 }) {
   const [textValue, onChangeText] = useState('');
 
   const sendingPhoto = () => {
@@ -22,14 +23,12 @@ export default function Sharing({ navigation, item1 }) {
     //     const tempDoc = querySnapshot.docs.map((doc) => {
     //       return doc.data().email
     //     })
- 
-    const currentUser = Firebase.auth().currentUser;
+
+    const { currentUser } = Firebase.auth();
     const usersData = Firebase.firestore().collection('users');
     const sendToUser = Math.floor(Math.random() * 3);
     usersData.get().then((querySnapshot) => {
-      const getUserData = querySnapshot.docs.map((doc) => {
-        return doc.data();
-      });
+      const getUserData = querySnapshot.docs.map((doc) => doc.data());
       //  console.log("what is userData", getUserData, "currentUser", currentUser);
       for (let i = 0; i < getUserData.length; i++) {
         if (currentUser.email === getUserData[i].email) {
@@ -43,7 +42,7 @@ export default function Sharing({ navigation, item1 }) {
           };
           if (getUserData[i].randomNum === sendMessage.receiver) {
             // console.log(getUserData[i].randomNum, sendMessage.receiver )
-            Alert.alert('Oop sorry, something wrong, please reshare it!')
+            Alert.alert('Oop sorry, something wrong, please reshare it!');
           } else if (sendMessage !== null) {
           // console.log("what is sendMessage1", sendMessage,"messageLength", messageLength)
             db.collection('photoMessage')
@@ -60,7 +59,7 @@ export default function Sharing({ navigation, item1 }) {
   // const sendingPhoto = () => {
   //   navigation.navigate('Home');
   // };
-
+  console.log('what is item2', item2);
   return (
     <View>
 

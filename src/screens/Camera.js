@@ -11,8 +11,7 @@ import * as MediaLibrary from 'expo-media-library';
 import Sharing from './Sharing';
 
 
-
-export default function TakePhoto({navigation}) {
+export default function TakePhoto({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraInvo, setCameraInvo] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -70,10 +69,12 @@ export default function TakePhoto({navigation}) {
   // }
   if (selectedImage !== null) {
     // console.log("what is uri",selectedImage)
+    const result = '123';
     return (
       <View>
+
         {/* <FlatList data={selectedImage.localUri} renderItem={( {item})=>(<Sharing item1={item} />)}/> */}
-        <Sharing item1={selectedImage} navigation={navigation} />
+        <Sharing item1={selectedImage} navigation={navigation} item2={result} />
       </View>
     );
   }
@@ -123,18 +124,18 @@ export default function TakePhoto({navigation}) {
 
 const styles = StyleSheet.create({
   Camera: {
-    flex: 1,
     backgroundColor: 'white',
+    flex: 1,
+  },
+  CameraIcons: {
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    backgroundColor: 'skyblue',
   },
   CameraScreen: {
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 30,
-  },
-  CameraIcons: {
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'skyblue',
   },
 });

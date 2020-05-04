@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, View, Text, TouchableOpacity,
 } from 'react-native';
-import Firebase, { db } from '../../config/Firebase';
+import Firebase from '../../config/Firebase';
 
 export default function Friends({ navigation }) {
   const [myFriendsList, setMyFriendsList] = useState([]);
@@ -33,9 +33,9 @@ export default function Friends({ navigation }) {
     console.log('what is result', result);
     setMyFriendsList(result);
   }
-  const pressHandler = () => {
-    navigation.navigation('Home');
-  };
+  // const pressHandler = () => {
+  //   navigation.navigation('Home');
+  // };
   console.log('my friemd list,', myFriendsList);
   return (
     <View style={styles.container}>

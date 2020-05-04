@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import {
-  View, TouchableOpacity, Text, StyleSheet, Alert, FlatList
+  View, TouchableOpacity, Text, StyleSheet, Alert,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -72,8 +72,6 @@ export default function TakePhoto({ navigation }) {
     const result = '123';
     return (
       <View>
-
-        {/* <FlatList data={selectedImage.localUri} renderItem={( {item})=>(<Sharing item1={item} />)}/> */}
         <Sharing item1={selectedImage} navigation={navigation} item2={result} />
       </View>
     );

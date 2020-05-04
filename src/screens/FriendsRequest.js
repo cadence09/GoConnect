@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View, Alert, Text, TouchableOpacity
 } from 'react-native';
-import useForceUpdate from 'use-force-update';
+
 import Firebase, { db } from '../../config/Firebase';
 
 

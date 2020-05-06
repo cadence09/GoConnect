@@ -21,22 +21,24 @@ export default function Home({ navigation }) {
   return (
 
     <View style={styles.container}>
+      <Text> Share Your Moment</Text>
       <TouchableOpacity onPress={pressCamera}>
-        <FontAwesome name="camera-retro" size={60} />
+        <FontAwesome name="camera-retro" size={60} style={styles.camera} />
         {/* <Text>Camera icon</Text> */}
         {/* <TakePhoto/> */}
       </TouchableOpacity>
       <View>
+        <Text>Be Connected </Text>
         <TouchableOpacity onPress={pressHandler}>
-          <FontAwesome name="envelope-o" size={60} />
+          <FontAwesome name="envelope-o" size={60} style={styles.message} />
         </TouchableOpacity>
-        <Text>Incoming Message </Text>
       </View>
       <View>
-        <TouchableOpacity onPress={pressFriendsRequest}>
-          <FontAwesome5 name="user-friends" size={60} />
+        <Text>Be Friends</Text>
+        <TouchableOpacity onPress={pressFriendsRequest}  >
+          <FontAwesome5 name="user-friends" size={60}  style={styles.friends}/>
         </TouchableOpacity>
-        <Text>Request</Text>
+        <Text>Be Friends</Text>
       </View>
     </View>
 
@@ -45,6 +47,19 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    padding: 130,
+    // height: 100,
+    // backgroundColor: '#dbd9c5'
   },
+  camera: {
+    color:"#a82d1d",
+    
+   
+  },
+  message:{
+    color: "#948409"
+  },
+  friends: {
+    color: '#d6b40b'
+  }
 });

@@ -109,14 +109,11 @@ export default function ShareMessage() {
                 <Text>{i + 1}</Text>
                 <Image source={{ uri: data.uri }} style={styles.thumbNail} />
                 <Text>
-                  {' '}
                   Message from
                   {data.senderName}
                 </Text>
                 <Text style={styles.message}>
-                  {' '}
                   {data.text}
-                  {' '}
                 </Text>
                 <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
               </View>

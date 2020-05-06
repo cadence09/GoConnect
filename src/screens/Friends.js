@@ -4,23 +4,24 @@ import {
   StyleSheet, View, Text, TouchableOpacity,
 } from 'react-native';
 import Firebase from '../../config/Firebase';
+import Chat from './Chat';
 
 export default function Friends({ navigation }) {
   const [myFriendsList, setMyFriendsList] = useState([]);
   const { currentUser } = Firebase.auth();
-  console.log('who is current', currentUser);
+
   useEffect(() => {
     const getFriendsList = Firebase.firestore().collection('friends');
     getFriendsList.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
-      console.log('what is quersnapshot', tempDoc);
+     
       showFriendsList(tempDoc);
     });
   }, []);
 
   function showFriendsList(friendsData) {
     const result = [];
-    console.log('what is firemdsdata', friendsData);
+
     for (let i = 0; i < friendsData.length; i++) {
       if (currentUser.email === friendsData[i].performerEmail) {
         const friends = {
@@ -28,15 +29,34 @@ export default function Friends({ navigation }) {
           friendsEmail: friendsData[i].friendsRequestUserEmail
         };
         result.push(friends);
+      }else if(currentUser.email === friendsData[i].friendsRequestUserEmail){
+         const friends={
+          friendsName: friendsData[i].performerName,
+          friendsEmail: friendsData[i].performerEmail
+         }
+         result.push(friends);
       }
     }
-    console.log('what is result', result);
+    console.log('what is resul1', result);
     setMyFriendsList(result);
   }
-  // const pressHandler = () => {
-  //   navigation.navigation('Home');
-  // };
-  console.log('my friemd list,', myFriendsList);
+
+  const pressHandler = (data) => {
+    
+    // navigation.navigate('Chat', {name:data.friendsName});
+    navigation.navigate('Chat', {name:[data.friendsName,data.friendsEmail]});
+    // return (<View><Chat data1={data}/></View>)
+    // transfer(data)
+  };
+
+  // function transfer(data){
+  //   console.log("whati si dataa",data)
+  //   return (<View><Chat data={data}/></View>)
+  // }
+// if(pressHandler){
+//  
+// }
+
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity onPress={pressHandler} />
@@ -44,8 +64,10 @@ export default function Friends({ navigation }) {
       {myFriendsList.length === 0 ? (<Text> No friends </Text>)
         : myFriendsList.map((data, i) => (
           <View>
-            <TouchableOpacity>
+            {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
+            <TouchableOpacity onPress={()=>pressHandler(data)}>
               <Text>{data.friendsName}</Text>
+             
             </TouchableOpacity>
           </View>
         ))}

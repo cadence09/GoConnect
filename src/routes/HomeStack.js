@@ -8,6 +8,7 @@ import LogIn from '../screens/LogIn';
 import SignUp from '../screens/SignUp';
 import Sharing from '../screens/Sharing';
 import FriendsRequest from '../screens/FriendsRequest';
+import Chat from '../screens/Chat';
 
 const screens = {
   Login: {
@@ -20,7 +21,7 @@ const screens = {
     screen: Home,
     navigationOptions: {
       title: 'homepage',
-      headerStyle: { backgroundColor: 'pink' },
+      // headerStyle: { backgroundColor: 'pink' },
     },
   },
   TakePhoto: {
@@ -37,9 +38,17 @@ const screens = {
   },
   Friends: {
     screen: Friends,
-    headerStyle: { backgroundColor: 'pink' }
+    // headerStyle: { backgroundColor: 'pink' }
+  },
+  Chat: {
+    screen: Chat,
+    navigationOptions: ({navigation }) => ({
+      title: navigation.state.params.name[0],
+    })
+    
   }
 };
+
 const HomeStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: 'yellow',

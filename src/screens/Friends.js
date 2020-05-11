@@ -72,10 +72,10 @@ export default function Friends({ navigation }) {
       <Text>a list of friends </Text> */}
       {myFriendsList.length === 0 ? (<Text> No friends </Text>)
         : myFriendsList.map((data, i) => (
-          <View>
+          <View style={styles.grid}>
             {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
             <TouchableOpacity onPress={()=>pressHandler(data)}>
-              <Text>{data.friendsName}</Text>
+              <Text style={styles.name}>{data.friendsName}</Text>
              
             </TouchableOpacity>
           </View>
@@ -86,6 +86,15 @@ export default function Friends({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 24,
   },
+  grid: {
+    marginBottom: 30
+  },
+  name: {
+    color: "black",
+    fontWeight: 'bold',
+  
+  }
 });

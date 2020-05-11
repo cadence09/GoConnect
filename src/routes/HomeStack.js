@@ -4,19 +4,19 @@ import Home from '../screens/Home';
 import Friends from '../screens/Friends';
 import ShareMessage from '../screens/ShareMessage';
 import TakePhoto from '../screens/Camera';
-import LogIn from '../screens/LogIn';
-import SignUp from '../screens/SignUp';
+// import LogIn from '../screens/LogIn';
+// import SignUp from '../screens/SignUp';
 import Sharing from '../screens/Sharing';
 import FriendsRequest from '../screens/FriendsRequest';
 import Chat from '../screens/Chat';
 
-const screens = {
-  Login: {
-    screen: LogIn,
-  },
-  SignUp: {
-    screen: SignUp,
-  },
+ const screens = {
+//   Login: {
+//     screen: LogIn,
+//   },
+//   SignUp: {
+//     screen: SignUp,
+//   },
   Home: {
     screen: Home,
     navigationOptions: {

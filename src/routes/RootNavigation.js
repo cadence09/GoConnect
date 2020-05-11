@@ -6,23 +6,13 @@ import RootDrawerNavigator from './Drawers';
 const AppStack = createStackNavigator({
     Login: {
       screen: LogIn,
-      
     },
   SignUp: {
     screen: SignUp,
   },
     Drawer: {
       screen: RootDrawerNavigator,
-     
     }
-  });
+  }, { headerMode: 'none' } );
 
 export default createAppContainer(AppStack);
-
-// {
-//   defaultNavigationOptions: {
-//     headerStyle: {
-//       backgroundColor: '#59AFD2'
-//     },
-//   }
-// }

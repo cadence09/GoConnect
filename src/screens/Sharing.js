@@ -27,19 +27,27 @@ export default function Sharing({ navigation, item1, item2 }) {
     const { currentUser } = Firebase.auth();
     const usersData = Firebase.firestore().collection('users');
     const sendToUser = Math.floor(Math.random() * 3);
+  
     usersData.get().then((querySnapshot) => {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       //  console.log("what is userData", getUserData, "currentUser", currentUser);
+     
       for (let i = 0; i < getUserData.length; i++) {
+        
         if (currentUser.email === getUserData[i].email) {
+          
+         
           const sendMessage = {
             uri: item1.localUri,
             text: textValue,
             randomNumber: getUserData[i].randomNum,
+            uid: getUserData[i].uid,
             sender: currentUser.email,
             receiver: sendToUser,
             senderName: getUserData[i].userName
           };
+         
+          console.log("photomesage", sendMessage)
           if (getUserData[i].randomNum === sendMessage.receiver) {
             // console.log(getUserData[i].randomNum, sendMessage.receiver )
             Alert.alert('Oop sorry, something wrong, please reshare it!');
@@ -48,18 +56,24 @@ export default function Sharing({ navigation, item1, item2 }) {
             db.collection('photoMessage')
               .doc()
               .set(sendMessage);
+        
+              // console.log("what is id",pid)
             Alert.alert('Photo shared');
             navigation.navigate('Home');
           }
+     
         }
+      
       }
+    
     });
+ 
   };
 
   // const sendingPhoto = () => {
   //   navigation.navigate('Home');
   // };
-  console.log('what is item2', item2);
+  // console.log('what is item2', item2);
   return (
     <View>
 

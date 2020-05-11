@@ -43,7 +43,7 @@ const screens = {
   Chat: {
     screen: Chat,
     navigationOptions: ({navigation }) => ({
-      title: navigation.state.params.name[0],
+      title: navigation.state.params.name.friendsName
     })
     
   }

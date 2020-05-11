@@ -39,7 +39,7 @@ export default function ShareMessage() {
       for (let j = 0; j < userDoc.length; j++) {
         if (currentUser.email === userDoc[j].email) {
           currentRan = userDoc[j].randomNum;
-          console.log('whati i the name', userDoc[j].userName);
+          // console.log('whati i the name', userDoc[j].userName);
           setUserName(userDoc[j].userName);
         }
       }
@@ -62,23 +62,43 @@ export default function ShareMessage() {
   const addFriendButton = (index, photoInfo) => {
     // const getPhotoMessage= Firebase.firestore().collection("photoMessage")
     // console.log("what is photo", receivingMessage)
-    console.log('what is current photo ', index, photoInfo);
+    // console.log('what is current photo ', index, photoInfo);
     // console.log("what is currentname", currentUserName)
     // check who send this message
     const friendsRequestInfo = {
       photoSenderEmail: photoInfo.sender,
       photoSenderName: photoInfo.senderName,
+      photoSenderUid: photoInfo.uid,
       FriendsRequestUserName: currentUserName,
-      FriendsRequestUserEmail: currentUser.email
+      FriendsRequestUserEmail: currentUser.email,
+      FriendsRequestUserUid: currentUser.uid
     };
-    console.log(friendsRequestInfo);
-    db.collection('beFriendsRequest')
-      .doc()
-      .set(friendsRequestInfo);
+    console.log("waht is friendsRequestInfo", friendsRequestInfo)
+   const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
+      friendsRequestList.get().then((querySnapshot)=>{
+        const tempDoc = querySnapshot.docs.map((doc)=>
+          doc.data())
+          console.log("what is tempDoc2", tempDoc)
+          for (let i=0; i<tempDoc.length; i++){
+            if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail){
+              return Alert.alert('Friend request sent!');
+            }else {
+              db.collection('beFriendsRequest')
+              .doc()
+              .set(friendsRequestInfo);
+        
+            Alert.alert('Friend request sent!');
+            }
+          }
+         
+      })
 
-    Alert.alert('Friend request sent!');
+   
   };
 
+  const deletePhotoMessage = (index, data) =>{
+      console.log("delte data", index, data)
+  }
 
   // let Message;
   // if (receivingMessage.length === 0) {
@@ -92,7 +112,7 @@ export default function ShareMessage() {
   //     </View>
   //   ))
   // }
-  console.log('what is receimessage', receivingMessage);
+ 
   return (
     <View>
 
@@ -116,6 +136,7 @@ export default function ShareMessage() {
                   {data.text}
                 </Text>
                 <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
+                <Button title="Skip" onPress={() => deletePhotoMessage(i+1, data)}/>
               </View>
             </ScrollView>
           </View>

@@ -14,25 +14,34 @@ export default function Friends({ navigation }) {
     const getFriendsList = Firebase.firestore().collection('friends');
     getFriendsList.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
-     
+     console.log("what is getFriendsList", tempDoc)
       showFriendsList(tempDoc);
     });
   }, []);
 
   function showFriendsList(friendsData) {
     const result = [];
-
+     
     for (let i = 0; i < friendsData.length; i++) {
       if (currentUser.email === friendsData[i].performerEmail) {
+        console.log("current user",currentUser.email,friendsData[i].performerEmail)
         const friends = {
           friendsName: friendsData[i].friendsRequestUserName,
-          friendsEmail: friendsData[i].friendsRequestUserEmail
+          friendsEmail: friendsData[i].friendsRequestUserEmail,
+          friendsUid: friendsData[i].friendsRequestUserUid,
+          currentSignUserEmail: friendsData[i].performerEmail,
+          currentSignUserName: friendsData[i].performerName,
+          currentSignUserUid: friendsData[i].performerUid
         };
         result.push(friends);
       }else if(currentUser.email === friendsData[i].friendsRequestUserEmail){
          const friends={
           friendsName: friendsData[i].performerName,
-          friendsEmail: friendsData[i].performerEmail
+          friendsEmail: friendsData[i].performerEmail,
+          friendsUid: friendsData[i].performerUid,
+          currentSignUserEmail: friendsData[i].friendsRequestUserEmail,
+          currentSignUserName: friendsData[i].friendsRequestUserName,
+          currentSignUserUid: friendsData[i].friendsRequestUserUid
          }
          result.push(friends);
       }
@@ -42,9 +51,9 @@ export default function Friends({ navigation }) {
   }
 
   const pressHandler = (data) => {
-    
+      console.log("what is firends data", data)
     // navigation.navigate('Chat', {name:data.friendsName});
-    navigation.navigate('Chat', {name:[data.friendsName,data.friendsEmail]});
+    navigation.navigate('Chat', {name:data});
     // return (<View><Chat data1={data}/></View>)
     // transfer(data)
   };

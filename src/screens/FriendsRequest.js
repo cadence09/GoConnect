@@ -53,7 +53,7 @@ export default function FriendsRequest() {
   function cancel(requester) {
     const getRequestList = db.collection('beFriendsRequest').where('FriendsRequestUserEmail', '==', requester.FriendsRequestUserEmail);
     getRequestList.get().then((querySnapshot) => {
-      console.log('what is queryList', querySnapshot);
+      // console.log('what is queryList', querySnapshot);
       querySnapshot.forEach((doc) => {
         doc.ref.delete();
       });
@@ -66,10 +66,13 @@ export default function FriendsRequest() {
     const addFriends = {
       performerEmail: requester.photoSenderEmail,
       performerName: requester.photoSenderName,
+      performerUid: requester.photoSenderUid,
       friendsRequestUserEmail: requester.FriendsRequestUserEmail,
-      friendsRequestUserName: requester.FriendsRequestUserName
+      friendsRequestUserName: requester.FriendsRequestUserName,
+      friendsRequestUserUid: requester.FriendsRequestUserUid
     };
     console.log('what is addfriends', addFriends);
+    
     db.collection('friends')
       .doc()
       .set(addFriends);

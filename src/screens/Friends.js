@@ -10,6 +10,7 @@ export default function Friends({ navigation }) {
   const [myFriendsList, setMyFriendsList] = useState([]);
   const { currentUser } = Firebase.auth();
 
+  console.log("currentuser1",currentUser)
   useEffect(() => {
     const getFriendsList = Firebase.firestore().collection('friends');
     getFriendsList.get().then((querySnapshot) => {

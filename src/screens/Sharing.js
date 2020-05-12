@@ -27,17 +27,16 @@ export default function Sharing({ navigation, item1, item2 }) {
     const { currentUser } = Firebase.auth();
     const usersData = Firebase.firestore().collection('users');
     const sendToUser = Math.floor(Math.random() * 3);
-  
     usersData.get().then((querySnapshot) => {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       //  console.log("what is userData", getUserData, "currentUser", currentUser);
-     
+      // let photoId=0;
       for (let i = 0; i < getUserData.length; i++) {
-        
+        // console.log("photoId", photoId)
+        // photoId++;
         if (currentUser.email === getUserData[i].email) {
-          
-         
           const sendMessage = {
+            // id:photoId,
             uri: item1.localUri,
             text: textValue,
             randomNumber: getUserData[i].randomNum,
@@ -46,7 +45,6 @@ export default function Sharing({ navigation, item1, item2 }) {
             receiver: sendToUser,
             senderName: getUserData[i].userName
           };
-         
           console.log("photomesage", sendMessage)
           if (getUserData[i].randomNum === sendMessage.receiver) {
             // console.log(getUserData[i].randomNum, sendMessage.receiver )
@@ -56,18 +54,14 @@ export default function Sharing({ navigation, item1, item2 }) {
             db.collection('photoMessage')
               .doc()
               .set(sendMessage);
-        
-              // console.log("what is id",pid)
+              // photoId++
+            // console.log("what is photoId",photoId)
             Alert.alert('Photo shared');
             navigation.navigate('Home');
           }
-     
         }
-      
       }
-    
     });
- 
   };
 
   // const sendingPhoto = () => {

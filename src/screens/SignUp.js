@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, TouchableOpacity, Text, Alert
+  View, TextInput, StyleSheet, TouchableOpacity, Text, Alert, Button
 } from 'react-native';
 import { decode, encode } from 'base-64';
 import Firebase, { db } from '../../config/Firebase';
@@ -44,6 +44,9 @@ function Signup({ navigation }) {
     }
   };
 
+  const handleProfilePic=()=>{
+    console.log("add profile")
+  }
   // const handleSignUp = () => {
 
   //   const events = Firebase.firestore().collection('users')
@@ -77,6 +80,7 @@ function Signup({ navigation }) {
         placeholder="Password"
         secureTextEntry
       />
+      <Button title="Upload Avatar" onPress={handleProfilePic}/>
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>

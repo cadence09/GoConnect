@@ -10,12 +10,12 @@ export default function Friends({ navigation }) {
   const [myFriendsList, setMyFriendsList] = useState([]);
   const { currentUser } = Firebase.auth();
 
-  console.log("currentuser1",currentUser)
+  // console.log("currentuser1",currentUser)
   useEffect(() => {
     const getFriendsList = Firebase.firestore().collection('friends');
     getFriendsList.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
-     console.log("what is getFriendsList", tempDoc)
+    //  console.log("what is getFriendsList", tempDoc)
       showFriendsList(tempDoc);
     });
   }, []);
@@ -24,8 +24,9 @@ export default function Friends({ navigation }) {
     const result = [];
      
     for (let i = 0; i < friendsData.length; i++) {
+      // console.log("what is friends data", friendsData)
       if (currentUser.email === friendsData[i].performerEmail) {
-        console.log("current user",currentUser.email,friendsData[i].performerEmail)
+       
         const friends = {
           friendsName: friendsData[i].friendsRequestUserName,
           friendsEmail: friendsData[i].friendsRequestUserEmail,
@@ -34,30 +35,33 @@ export default function Friends({ navigation }) {
           currentSignUserEmail: friendsData[i].performerEmail,
           currentSignUserName: friendsData[i].performerName,
           currentSignUserUid: friendsData[i].performerUid,
-          currentSignUserPic: friendsData[i].performerPic
+       
         };
+        console.log("what is friends1", friends)
         result.push(friends);
       }else if(currentUser.email === friendsData[i].friendsRequestUserEmail){
          const friends={
           friendsName: friendsData[i].performerName,
           friendsEmail: friendsData[i].performerEmail,
           friendsUid: friendsData[i].performerUid,
-          friendsPic: friendsData[i].performerPic,
+          friendsPic: friendsData[i].perfomerPic,
+        
           currentSignUserEmail: friendsData[i].friendsRequestUserEmail,
           currentSignUserName: friendsData[i].friendsRequestUserName,
           currentSignUserUid: friendsData[i].friendsRequestUserUid,
-          currentSignUserPic:  friendsData[i].friendsRequestPic,
+      
          
          }
+         console.log("what is friends2", friends)
          result.push(friends);
       }
     }
-    console.log('what is resul1', result);
+    // console.log('what is resul1', result);
     setMyFriendsList(result);
   }
 
   const pressHandler = (data) => {
-      console.log("what is firends data", data)
+      // console.log("what is firends data", data)
 
     navigation.navigate('Chat', {name:data});
   
@@ -72,8 +76,9 @@ export default function Friends({ navigation }) {
      
       {myFriendsList.length === 0 ? (<Text> No friends </Text>)
         : myFriendsList.map((data, i) => (
+         
           <TouchableOpacity onPress={()=>pressHandler(data)} style={styles.grid}> 
-       
+       {/* {console.log("what is data",data)} */}
            <Image style={styles.pic} source={{uri:data.friendsPic}} />
             {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
         

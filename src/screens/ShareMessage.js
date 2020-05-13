@@ -40,12 +40,12 @@ export default function ShareMessage() {
       for (let j = 0; j < userDoc.length; j++) {
         if (currentUser.email === userDoc[j].email) {
           currentRan = userDoc[j].randomNum;
-          // console.log('whati i the name', userDoc[j].userName);
+          console.log('whati i the name', userDoc[j]);
             const userInfo={
               userName: userDoc[j].userName,
-              userPic: userDoc[j].profilePicture.localUri
+              // userPic: userDoc[j].profilePicture.localUri
             }
-          // setUserName(userDoc[j].userName);
+          // console.log("what is userInfo", userInfo)
             setUser(userInfo)
         }
       }

@@ -3,12 +3,13 @@ import {
   View, Text, Image, StyleSheet, ScrollView, Button, Alert
 } from 'react-native';
 import Firebase, { db } from '../../config/Firebase';
+import FriendsRequest from './FriendsRequest';
 
 
 export default function ShareMessage() {
   // const [receivingMessage, setReceivingMessage]= useState([])
   const [receivingMessage, setReceivingMessage] = useState([]);
-  const [currentUserName, setUserName] = useState('');
+  const [user, setUser] = useState('');
   const { currentUser } = Firebase.auth();
   const userData = Firebase.firestore().collection('users');
   // const pressHandler = () => {
@@ -40,7 +41,12 @@ export default function ShareMessage() {
         if (currentUser.email === userDoc[j].email) {
           currentRan = userDoc[j].randomNum;
           // console.log('whati i the name', userDoc[j].userName);
-          setUserName(userDoc[j].userName);
+            const userInfo={
+              userName: userDoc[j].userName,
+              userPic: userDoc[j].profilePicture.localUri
+            }
+          // setUserName(userDoc[j].userName);
+            setUser(userInfo)
         }
       }
       for (let i = 0; i < notifications.length; i++) {
@@ -62,16 +68,18 @@ export default function ShareMessage() {
   const addFriendButton = (index, photoInfo) => {
     // const getPhotoMessage= Firebase.firestore().collection("photoMessage")
     // console.log("what is photo", receivingMessage)
-    // console.log('what is current photo ', index, photoInfo);
-    // console.log("what is currentname", currentUserName)
+    console.log('what is current photo ', index, photoInfo);
+    console.log("what is currentname", user)
     // check who send this message
     const friendsRequestInfo = {
       photoSenderEmail: photoInfo.sender,
       photoSenderName: photoInfo.senderName,
       photoSenderUid: photoInfo.uid,
-      FriendsRequestUserName: currentUserName,
+      photoSenderPic: photoInfo.senderProfilePic,
+      FriendsRequestUserName: user.userName,
       FriendsRequestUserEmail: currentUser.email,
-      FriendsRequestUserUid: currentUser.uid
+      FriendsRequestUserUid: currentUser.uid,
+      FriendsRequestPic: user.userPic
     };
     console.log("waht is friendsRequestInfo", friendsRequestInfo)
    const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
@@ -80,7 +88,8 @@ export default function ShareMessage() {
           doc.data())
           console.log("what is tempDoc2", tempDoc)
           for (let i=0; i<tempDoc.length; i++){
-            if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail){
+            if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail && 
+              tempDoc[i].photoSenderEmail === friendsRequestInfo. photoSenderEmail){
               return Alert.alert('Friend request sent!');
             }else {
               db.collection('beFriendsRequest')

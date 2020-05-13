@@ -67,9 +67,11 @@ export default function FriendsRequest() {
       performerEmail: requester.photoSenderEmail,
       performerName: requester.photoSenderName,
       performerUid: requester.photoSenderUid,
+      perfomerPic: requester.photoSenderPic,
       friendsRequestUserEmail: requester.FriendsRequestUserEmail,
       friendsRequestUserName: requester.FriendsRequestUserName,
-      friendsRequestUserUid: requester.FriendsRequestUserUid
+      friendsRequestUserUid: requester.FriendsRequestUserUid,
+      friendsRequestPic: requester.FriendsRequestPic
     };
     console.log('what is addfriends', addFriends);
     

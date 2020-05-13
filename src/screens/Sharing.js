@@ -31,10 +31,13 @@ export default function Sharing({ navigation, item1, item2 }) {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       //  console.log("what is userData", getUserData, "currentUser", currentUser);
       // let photoId=0;
+     
       for (let i = 0; i < getUserData.length; i++) {
         // console.log("photoId", photoId)
         // photoId++;
+        
         if (currentUser.email === getUserData[i].email) {
+          console.log("user proffile", getUserData[i].profilePicture.localUri)
           const sendMessage = {
             // id:photoId,
             uri: item1.localUri,
@@ -42,12 +45,13 @@ export default function Sharing({ navigation, item1, item2 }) {
             randomNumber: getUserData[i].randomNum,
             uid: getUserData[i].uid,
             sender: currentUser.email,
+            senderProfilePic: getUserData[i].profilePicture.localUri,
             receiver: sendToUser,
             senderName: getUserData[i].userName
           };
           console.log("photomesage", sendMessage)
           if (getUserData[i].randomNum === sendMessage.receiver) {
-            // console.log(getUserData[i].randomNum, sendMessage.receiver )
+            console.log(getUserData[i].randomNum, sendMessage.receiver )
             Alert.alert('Oop sorry, something wrong, please reshare it!');
           } else if (sendMessage !== null) {
           // console.log("what is sendMessage1", sendMessage,"messageLength", messageLength)

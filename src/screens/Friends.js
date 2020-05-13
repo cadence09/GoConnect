@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity,
+  StyleSheet, View, Text, TouchableOpacity, Image, Button
 } from 'react-native';
 import Firebase from '../../config/Firebase';
 import Chat from './Chat';
@@ -30,9 +30,11 @@ export default function Friends({ navigation }) {
           friendsName: friendsData[i].friendsRequestUserName,
           friendsEmail: friendsData[i].friendsRequestUserEmail,
           friendsUid: friendsData[i].friendsRequestUserUid,
+          friendsPic: friendsData[i].friendsRequestPic,
           currentSignUserEmail: friendsData[i].performerEmail,
           currentSignUserName: friendsData[i].performerName,
-          currentSignUserUid: friendsData[i].performerUid
+          currentSignUserUid: friendsData[i].performerUid,
+          currentSignUserPic: friendsData[i].performerPic
         };
         result.push(friends);
       }else if(currentUser.email === friendsData[i].friendsRequestUserEmail){
@@ -40,9 +42,12 @@ export default function Friends({ navigation }) {
           friendsName: friendsData[i].performerName,
           friendsEmail: friendsData[i].performerEmail,
           friendsUid: friendsData[i].performerUid,
+          friendsPic: friendsData[i].performerPic,
           currentSignUserEmail: friendsData[i].friendsRequestUserEmail,
           currentSignUserName: friendsData[i].friendsRequestUserName,
-          currentSignUserUid: friendsData[i].friendsRequestUserUid
+          currentSignUserUid: friendsData[i].friendsRequestUserUid,
+          currentSignUserPic:  friendsData[i].friendsRequestPic,
+         
          }
          result.push(friends);
       }
@@ -53,34 +58,32 @@ export default function Friends({ navigation }) {
 
   const pressHandler = (data) => {
       console.log("what is firends data", data)
-    // navigation.navigate('Chat', {name:data.friendsName});
+
     navigation.navigate('Chat', {name:data});
-    // return (<View><Chat data1={data}/></View>)
-    // transfer(data)
+  
   };
 
-  // function transfer(data){
-  //   console.log("whati si dataa",data)
-  //   return (<View><Chat data={data}/></View>)
-  // }
-// if(pressHandler){
-//  
-// }
+
 
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity onPress={pressHandler} />
       <Text>a list of friends </Text> */}
+     
       {myFriendsList.length === 0 ? (<Text> No friends </Text>)
         : myFriendsList.map((data, i) => (
-          <View style={styles.grid}>
+          <TouchableOpacity onPress={()=>pressHandler(data)} style={styles.grid}> 
+       
+           <Image style={styles.pic} source={{uri:data.friendsPic}} />
             {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
-            <TouchableOpacity onPress={()=>pressHandler(data)}>
+        
+               
               <Text style={styles.name}>{data.friendsName}</Text>
-             
-            </TouchableOpacity>
-          </View>
+           
+     
+          </TouchableOpacity>
         ))}
+        
     </View>
   );
 }
@@ -89,13 +92,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+    
   },
   grid: {
-    marginBottom: 30
+    marginBottom: 30,
+    flexDirection: "row"
   },
   name: {
     color: "black",
     fontWeight: 'bold',
+    paddingLeft: 20,
   
+   
+  
+  },
+  pic: {
+    width: 50,
+    height: 50
   }
 });

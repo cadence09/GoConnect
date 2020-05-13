@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, TouchableOpacity, Text, Alert, Button
+  View, TextInput, StyleSheet, TouchableOpacity, Text, Alert
 } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { decode, encode } from 'base-64';
-import Firebase, { db } from '../../config/Firebase';
+import Firebase, { db } from '../../config/Firebase'; 
+
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -19,18 +22,22 @@ function Signup({ navigation }) {
   const [email, onChangeEmail] = useState('');
   const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
+  const [cameraRoll, setCameraRoll ] =useState(null);
+  const [profilePic, setProfilePic] = useState('')
 
   const handleSignUp = async () => {
     try {
       const response = await Firebase.auth().createUserWithEmailAndPassword(email, password);
       console.log('what is response', response);
       const acctNum = Math.floor(Math.random() * 3);
+     
       console.log(acctNum);
       const newUser = {
         uid: response.user.uid,
         email: response.user.email,
         userName: name,
-        randomNum: acctNum
+        randomNum: acctNum,
+        profilePicture: profilePic
       };
       // eslint-disable-next-line no-unused-expressions
       console.log('new user', newUser)
@@ -44,9 +51,40 @@ function Signup({ navigation }) {
     }
   };
 
-  const handleProfilePic=()=>{
-    console.log("add profile")
+  
+  const handleProfilePic= async()=>{
+    const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+    
+    if (status === "granted"){
+         setCameraRoll(true)
+         handleStoringAvarta()
+    }else{
+      setCameraRoll(false)
+      Alert.alert('Need Permission to access the camera roll in order to upload profile picture');
+    }
+  
+    // console.log("add profile")
+
   }
+
+  async function handleStoringAvarta(){
+      console.log("storing avatar uri")
+      if (cameraRoll === true){
+        const result= await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
+        })
+         setProfilePic({localUri: result.uri})
+        console.log("what image reuslt", result)
+        
+      }
+
+  }
+
+
+
   // const handleSignUp = () => {
 
   //   const events = Firebase.firestore().collection('users')
@@ -80,7 +118,10 @@ function Signup({ navigation }) {
         placeholder="Password"
         secureTextEntry
       />
-      <Button title="Upload Avatar" onPress={handleProfilePic}/>
+      {/* <Button title="Upload Profile Picture" onPress={handleProfilePic}/> */}
+      <TouchableOpacity onPress={handleProfilePic}>
+  <Text>Upload Profile Picture</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>

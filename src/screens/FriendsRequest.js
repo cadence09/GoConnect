@@ -62,7 +62,7 @@ export default function FriendsRequest() {
 
   function addedToBeFriends(requester) {
     cancel(requester);
-    console.log('what should be friends', requester.friendsRequestUserEmail);
+    console.log('what should be friends', requester);
     const addFriends = {
       performerEmail: requester.photoSenderEmail,
       performerName: requester.photoSenderName,

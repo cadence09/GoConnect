@@ -43,9 +43,9 @@ export default function ShareMessage() {
           console.log('whati i the name', userDoc[j]);
             const userInfo={
               userName: userDoc[j].userName,
-              // userPic: userDoc[j].profilePicture.localUri
+              userPic: userDoc[j].profilePicture.localUri
             }
-          // console.log("what is userInfo", userInfo)
+          console.log("what is userInfo", userInfo)
             setUser(userInfo)
         }
       }
@@ -66,11 +66,7 @@ export default function ShareMessage() {
 
 
   const addFriendButton = (index, photoInfo) => {
-    // const getPhotoMessage= Firebase.firestore().collection("photoMessage")
-    // console.log("what is photo", receivingMessage)
-    console.log('what is current photo ', index, photoInfo);
-    console.log("what is currentname", user)
-    // check who send this message
+    
     const friendsRequestInfo = {
       photoSenderEmail: photoInfo.sender,
       photoSenderName: photoInfo.senderName,
@@ -81,27 +77,63 @@ export default function ShareMessage() {
       FriendsRequestUserUid: currentUser.uid,
       FriendsRequestPic: user.userPic
     };
-    console.log("waht is friendsRequestInfo", friendsRequestInfo)
-   const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
+    // console.log("waht is friendsRequestInfo", friendsRequestInfo)
+  //  const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
+  //     friendsRequestList.get().then((querySnapshot)=>{
+  //       const tempDoc = querySnapshot.docs.map((doc)=>
+  //         doc.data())
+  //         console.log("what is tempDoc2", tempDoc)
+  //         for (let i=0; i<tempDoc.length; i++){
+  //           if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail 
+  //             // && tempDoc[i].photoSenderEmail === friendsRequestInfo. photoSenderEmail
+  //             ){
+  //               console.log("add")
+  //             return Alert.alert('Friend request sent!');
+  //           }else {
+  //             db.collection('beFriendsRequest')
+  //             .doc()
+  //             .set(friendsRequestInfo);
+  //             console.log("add2")
+  //           Alert.alert('Friend request sent!');
+  //           }
+  //         }
+         
+  //     })
+  // const friendsRequestInfo = {
+  //   photoSenderEmail: photoInfo.sender,
+  //   photoSenderName: photoInfo.senderName,
+  //   photoSenderUid: photoInfo.uid,
+  //   FriendsRequestUserName: user.userName,
+  //   FriendsRequestUserEmail: currentUser.email,
+  //   FriendsRequestUserUid: currentUser.uid
+  // };
+
+
+  console.log("waht is friendsRequestInfo", friendsRequestInfo)
+  const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
       friendsRequestList.get().then((querySnapshot)=>{
         const tempDoc = querySnapshot.docs.map((doc)=>
           doc.data())
-          console.log("what is tempDoc2", tempDoc)
-          for (let i=0; i<tempDoc.length; i++){
-            if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail && 
-              tempDoc[i].photoSenderEmail === friendsRequestInfo. photoSenderEmail){
-              return Alert.alert('Friend request sent!');
-            }else {
-              db.collection('beFriendsRequest')
-              .doc()
-              .set(friendsRequestInfo);
-        
-            Alert.alert('Friend request sent!');
-            }
-          }
-         
+           if (tempDoc.length === 0){
+            db.collection('beFriendsRequest')
+                        .doc()
+                        .set(friendsRequestInfo);
+                  console.log("245")
+                      Alert.alert('Friend request sent!');
+           }else{
+             for (let i=0; i<tempDoc.length; i++){
+               if (tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail){
+                return Alert.alert('Friend request sent!');
+               }else {
+                            db.collection('beFriendsRequest')
+                            .doc()
+                            .set(friendsRequestInfo);
+                      console.log("123")
+                          Alert.alert('Friend request sent!');
+                          }
+             }
+           }
       })
-
    
   };
 

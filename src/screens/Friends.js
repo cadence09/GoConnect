@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, Image, Button
+  StyleSheet, View, Text, TouchableOpacity, Image
 } from 'react-native';
 import Firebase from '../../config/Firebase';
 import Chat from './Chat';
@@ -69,26 +69,44 @@ export default function Friends({ navigation }) {
 
 
 
-  return (
-    <View style={styles.container}>
-      {/* <TouchableOpacity onPress={pressHandler} />
-      <Text>a list of friends </Text> */}
+  // return (
+  //   <View style={styles.container}>
+  //     {/* <TouchableOpacity onPress={pressHandler} />
+  //     <Text>a list of friends </Text> */}
      
-      {myFriendsList.length === 0 ? (<Text> No friends </Text>)
-        : myFriendsList.map((data, i) => (
+  //     {myFriendsList.length === 0 ? (<Text> No friends </Text>)
+  //       : myFriendsList.map((data, i) => (
          
-          <TouchableOpacity onPress={()=>pressHandler(data)} style={styles.grid}> 
-       {/* {console.log("what is data",data)} */}
-           <Image style={styles.pic} source={{uri:data.friendsPic}} />
-            {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
+  //         <TouchableOpacity onPress={()=>pressHandler(data)} style={styles.grid}> 
+  //        { console.log(data.friendsPic)}
+  //      {/* {console.log("what is data",data)} */}
+  //          <Image style={styles.pic} source={{uri:data.friendsPic}} />
+  //           {/* <TouchableOpacity onPress={()=> navigation.navigate('Chat',{name:data.friendsName})}> */}
         
                
-              <Text style={styles.name}>{data.friendsName}</Text>
+  //             <Text style={styles.name}>{data.friendsName}</Text>
            
      
-          </TouchableOpacity>
-        ))}
+  //         </TouchableOpacity>
+  //       ))}
         
+  //   </View>
+  // );
+  return (
+  <View style={styles.container}>
+      {/* <TouchableOpacity onPress={pressHandler} />
+      <Text>a list of friends </Text> */}
+      {myFriendsList.length === 0 ? (<Text> No friends </Text>)
+        : myFriendsList.map((data, i) => (
+          <TouchableOpacity onPress={()=>pressHandler(data)} style={styles.grid}> 
+          
+            <Image style={styles.pic} source={{uri:data.friendsPic}} />
+           
+              <Text style={styles.name}>{data.friendsName}</Text>
+             
+            </TouchableOpacity>
+         
+        ))}
     </View>
   );
 }

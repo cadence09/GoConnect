@@ -8,6 +8,7 @@ function LogIn({ navigation }) {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
+  // Using Firebase signInWithEmailAndPassword method to authenicate a user's email and passowrd
   const handleLogin = () => {
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)

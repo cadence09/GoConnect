@@ -18,7 +18,7 @@ export default function TakePhoto({ navigation }) {
   const [cameraRoll, setCameraRoll] = useState(null);
   const [selectedImage, setSeletedImage] = useState(null);
 
-
+  //Asking camera permission
   useEffect(() => {
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -45,15 +45,10 @@ export default function TakePhoto({ navigation }) {
     }
   }
   const cameraFolder = async () => {
-    console.log('what is cameroll', cameraRoll);
-    //  CameraRollPermission()
-
     if (cameraRoll === true) {
-      console.log('camera roll granted');
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
-
       if (result.cancelled === true) {
         return (
           <View />
@@ -64,11 +59,8 @@ export default function TakePhoto({ navigation }) {
       Alert.alert('Need Permission to access the camera roll, please go to system to grant the permission ');
     }
   };
-  // const sendingPhoto=(photo,text)=>{
-  //      console.log(photo,text)
-  // }
+
   if (selectedImage !== null) {
-    // console.log("what is uri",selectedImage)
     const result = '123';
     return (
       <View>
@@ -79,14 +71,9 @@ export default function TakePhoto({ navigation }) {
 
   const takingPhoto = async () => {
     if (cameraInvo) {
-      // let photo=await cameraInvo.takePictureAsync()
       const { uri } = await cameraInvo.takePictureAsync();
       CameraRollPermission();
-
-      // const { uri } = await cameraInvo.takePictureAsync();
-      // console.log('uri', uri);
       const asset = await MediaLibrary.createAssetAsync(uri);
-      console.log('asset', asset);
       MediaLibrary.createAlbumAsync('Expo', [asset])
         .then(() => {
           Alert.alert('Picture Added!');

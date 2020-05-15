@@ -5,7 +5,7 @@ import {
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { decode, encode } from 'base-64';
-import Firebase, { db } from '../../config/Firebase'; 
+import Firebase, { db } from '../../config/Firebase';
 
 
 if (!global.btoa) {
@@ -22,16 +22,14 @@ function Signup({ navigation }) {
   const [email, onChangeEmail] = useState('');
   const [name, onChangeName] = useState('');
   const [password, onChangePassword] = useState('');
-  const [cameraRoll, setCameraRoll ] =useState(null);
-  const [profilePic, setProfilePic] = useState('')
+  const [cameraRoll, setCameraRoll] = useState(null);
+  const [profilePic, setProfilePic] = useState('');
 
   const handleSignUp = async () => {
     try {
+      //
       const response = await Firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log('what is response', response);
       const acctNum = Math.floor(Math.random() * 3);
-     
-      console.log(acctNum);
       const newUser = {
         uid: response.user.uid,
         email: response.user.email,
@@ -40,8 +38,7 @@ function Signup({ navigation }) {
         profilePicture: profilePic
       };
       // eslint-disable-next-line no-unused-expressions
-      console.log('new user', newUser)
-      / db.collection('users')
+      db.collection('users')
         .doc(newUser.uid)
         .set(newUser);
       navigation.navigate('Home');
@@ -51,50 +48,29 @@ function Signup({ navigation }) {
     }
   };
 
-  
-  const handleProfilePic= async()=>{
-    const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-    
-    if (status === "granted"){
-         setCameraRoll(true)
-         handleStoringAvarta()
-    }else{
-      setCameraRoll(false)
+  const handleProfilePic = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      setCameraRoll(true);
+      handleStoringAvarta();
+    } else {
+      setCameraRoll(false);
       Alert.alert('Need Permission to access the camera roll in order to upload profile picture');
     }
-  
-    // console.log("add profile")
+  };
 
+  async function handleStoringAvarta() {
+    if (cameraRoll === true) {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      });
+      setProfilePic({ localUri: result.uri });
+    }
   }
 
-  async function handleStoringAvarta(){
-      console.log("storing avatar uri")
-      if (cameraRoll === true){
-        const result= await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1
-        })
-         setProfilePic({localUri: result.uri})
-        console.log("what image reuslt", result)
-        
-      }
-
-  }
-
-
-
-  // const handleSignUp = () => {
-
-  //   const events = Firebase.firestore().collection('users')
-  // events.get().then((querySnapshot) => {
-  //     const tempDoc = querySnapshot.docs.map((doc) => {
-  //       return doc.data().email
-  //     })
-
-
-  // }
 
   return (
     <View style={styles.container}>
@@ -120,7 +96,7 @@ function Signup({ navigation }) {
       />
       {/* <Button title="Upload Profile Picture" onPress={handleProfilePic}/> */}
       <TouchableOpacity onPress={handleProfilePic}>
-  <Text>Upload Profile Picture</Text>
+        <Text>Upload Profile Picture</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Signup</Text>

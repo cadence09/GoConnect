@@ -3,61 +3,46 @@ import {
   View, Text, Image, StyleSheet, ScrollView, Button, Alert
 } from 'react-native';
 import Firebase, { db } from '../../config/Firebase';
-import FriendsRequest from './FriendsRequest';
 
 
 export default function ShareMessage() {
-  // const [receivingMessage, setReceivingMessage]= useState([])
   const [receivingMessage, setReceivingMessage] = useState([]);
   const [user, setUser] = useState('');
   const { currentUser } = Firebase.auth();
-  const userData = Firebase.firestore().collection('users');
-  // const pressHandler = () => {
-  //   navigation.goBack();
-  // };
-  // const events = Firebase.firestore().collection('users')
-  // events.get().then((querySnapshot) => {
-  //     const tempDoc = querySnapshot.docs.map((doc) => {
-  //       return doc.data().email
-  //     })
 
+  // Load the photo moments in Firebase
   useEffect(() => {
     const getPhotoMessage = Firebase.firestore().collection('photoMessage');
     getPhotoMessage.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
-      // console.log("what is photomessage", tempDoc)
       showPhotoMessage(tempDoc);
     });
   }, []);
 
   function showPhotoMessage(notifications) {
-  //  console.log("what is notificatin" ,notifications)
     const result = [];
     let currentRan = 0;
 
+    // retrive users name and profile picture
+    const userData = Firebase.firestore().collection('users');
     userData.get().then((userQuerySnapshot) => {
       const userDoc = userQuerySnapshot.docs.map((doc) => doc.data());
       for (let j = 0; j < userDoc.length; j++) {
         if (currentUser.email === userDoc[j].email) {
           currentRan = userDoc[j].randomNum;
-          console.log('whati i the name', userDoc[j]);
-            const userInfo={
-              userName: userDoc[j].userName,
-              userPic: userDoc[j].profilePicture.localUri
-            }
-          console.log("what is userInfo", userInfo)
-            setUser(userInfo)
+          const userInfo = {
+            userName: userDoc[j].userName,
+            userPic: userDoc[j].profilePicture.localUri
+          };
+          setUser(userInfo);
         }
       }
       for (let i = 0; i < notifications.length; i++) {
-        // for(let j=0; j<userDoc.length; j++){
         if (notifications[i].receiver === currentRan) {
           result.push(notifications[i]);
-        //  }
         }
       }
 
-      // console.log("what is result", result)
       if (result.length !== 0) {
         return setReceivingMessage([...result]);
       }
@@ -66,7 +51,6 @@ export default function ShareMessage() {
 
 
   const addFriendButton = (index, photoInfo) => {
-    
     const friendsRequestInfo = {
       photoSenderEmail: photoInfo.sender,
       photoSenderName: photoInfo.senderName,
@@ -77,83 +61,32 @@ export default function ShareMessage() {
       FriendsRequestUserUid: currentUser.uid,
       FriendsRequestPic: user.userPic
     };
-    // console.log("waht is friendsRequestInfo", friendsRequestInfo)
-  //  const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
-  //     friendsRequestList.get().then((querySnapshot)=>{
-  //       const tempDoc = querySnapshot.docs.map((doc)=>
-  //         doc.data())
-  //         console.log("what is tempDoc2", tempDoc)
-  //         for (let i=0; i<tempDoc.length; i++){
-  //           if(tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail 
-  //             // && tempDoc[i].photoSenderEmail === friendsRequestInfo. photoSenderEmail
-  //             ){
-  //               console.log("add")
-  //             return Alert.alert('Friend request sent!');
-  //           }else {
-  //             db.collection('beFriendsRequest')
-  //             .doc()
-  //             .set(friendsRequestInfo);
-  //             console.log("add2")
-  //           Alert.alert('Friend request sent!');
-  //           }
-  //         }
-         
-  //     })
-  // const friendsRequestInfo = {
-  //   photoSenderEmail: photoInfo.sender,
-  //   photoSenderName: photoInfo.senderName,
-  //   photoSenderUid: photoInfo.uid,
-  //   FriendsRequestUserName: user.userName,
-  //   FriendsRequestUserEmail: currentUser.email,
-  //   FriendsRequestUserUid: currentUser.uid
-  // };
-
-
-  console.log("waht is friendsRequestInfo", friendsRequestInfo)
-  const friendsRequestList = Firebase.firestore().collection('beFriendsRequest')
-      friendsRequestList.get().then((querySnapshot)=>{
-        const tempDoc = querySnapshot.docs.map((doc)=>
-          doc.data())
-           if (tempDoc.length === 0){
-            db.collection('beFriendsRequest')
-                        .doc()
-                        .set(friendsRequestInfo);
-                  console.log("245")
-                      Alert.alert('Friend request sent!');
-           }else{
-             for (let i=0; i<tempDoc.length; i++){
-               if (tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail){
-                return Alert.alert('Friend request sent!');
-               }else {
-                            db.collection('beFriendsRequest')
-                            .doc()
-                            .set(friendsRequestInfo);
-                      console.log("123")
-                          Alert.alert('Friend request sent!');
-                          }
-             }
-           }
-      })
-   
+    const friendsRequestList = Firebase.firestore().collection('beFriendsRequest');
+    friendsRequestList.get().then((querySnapshot) => {
+      const tempDoc = querySnapshot.docs.map((doc) => doc.data());
+      if (tempDoc.length === 0) {
+        db.collection('beFriendsRequest')
+          .doc()
+          .set(friendsRequestInfo);
+        Alert.alert('Friend request sent!');
+      } else {
+        for (let i = 0; i < tempDoc.length; i++) {
+          if (tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail) {
+            return Alert.alert('Friend request sent!');
+          }
+          db.collection('beFriendsRequest')
+            .doc()
+            .set(friendsRequestInfo);
+          Alert.alert('Friend request sent!');
+        }
+      }
+    });
   };
 
-  const deletePhotoMessage = (index, data) =>{
-      console.log("delte data", index, data)
-  }
+  const deletePhotoMessage = (index, data) => {
+    console.log('delte data', index, data);
+  };
 
-  // let Message;
-  // if (receivingMessage.length === 0) {
-  //   Message = (<Text> No Message</Text>);
-  // } else {
-  //   Message = receivingMessage.map(data => (
-  //     <View>
-  //       <Text> Message from {data.senderName}</Text>
-  //       <Image source={{ uri:data.uri }} style={styles.thumbNail} />
-  //       <Text> { data.text } </Text>
-  //     </View>
-  //   ))
-  // }
- 
   return (
     <View>
 
@@ -171,13 +104,14 @@ export default function ShareMessage() {
                 <Image source={{ uri: data.uri }} style={styles.thumbNail} />
                 <Text>
                   Message from
+                  {' '}
                   {data.senderName}
                 </Text>
                 <Text style={styles.message}>
                   {data.text}
                 </Text>
                 <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
-                <Button title="Skip" onPress={() => deletePhotoMessage(i+1, data)}/>
+                <Button title="Skip" onPress={() => deletePhotoMessage(i + 1, data)} />
               </View>
             </ScrollView>
           </View>

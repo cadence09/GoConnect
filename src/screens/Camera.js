@@ -61,10 +61,9 @@ export default function TakePhoto({ navigation }) {
   };
 
   if (selectedImage !== null) {
-    const result = '123';
     return (
       <View>
-        <Sharing item1={selectedImage} navigation={navigation} item2={result} />
+        <Sharing item1={selectedImage} navigation={navigation} />
       </View>
     );
   }

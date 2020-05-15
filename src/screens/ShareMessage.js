@@ -19,7 +19,7 @@ export default function ShareMessage() {
     });
   }, []);
 
-  function showPhotoMessage(notifications) {
+  function showPhotoMessage(tempDocData) {
     const result = [];
     let currentRan = 0;
 
@@ -37,9 +37,9 @@ export default function ShareMessage() {
           setUser(userInfo);
         }
       }
-      for (let i = 0; i < notifications.length; i++) {
-        if (notifications[i].receiver === currentRan) {
-          result.push(notifications[i]);
+      for (let i = 0; i < tempDocData.length; i++) {
+        if (tempDocData[i].receiver === currentRan) {
+          result.push(tempDocData[i]);
         }
       }
 

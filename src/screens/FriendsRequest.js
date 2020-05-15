@@ -8,8 +8,6 @@ import Firebase, { db } from '../../config/Firebase';
 
 export default function FriendsRequest() {
   const [friendsListRequest, setFriendsListRequest] = useState([]);
-  const { currentUser } = Firebase.auth();
-
 
   useEffect(() => {
     const getBeFriendsReqeust = Firebase.firestore().collection('beFriendsRequest');
@@ -20,6 +18,7 @@ export default function FriendsRequest() {
   }, []);
 
   function getFriendsRequestList(listInfo) {
+    const { currentUser } = Firebase.auth();
     const result = [];
     for (let i = 0; i < listInfo.length; i++) {
       if (currentUser.email === listInfo[i].photoSenderEmail) {

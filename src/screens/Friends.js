@@ -22,7 +22,6 @@ export default function Friends({ navigation }) {
   function showFriendsList(friendsData) {
     const result = [];
     for (let i = 0; i < friendsData.length; i++) {
-      // console.log("what is friends data", friendsData)
       if (currentUser.email === friendsData[i].performerEmail) {
         const friends = {
           friendsName: friendsData[i].friendsRequestUserName,

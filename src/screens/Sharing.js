@@ -14,7 +14,7 @@ if (!global.atob) {
   global.atob = decode;
 }
 
-export default function Sharing({ navigation, item1, item2 }) {
+export default function Sharing({ navigation, item1 }) {
   const [textValue, onChangeText] = useState('');
 
   const sendingPhoto = () => {
@@ -25,7 +25,7 @@ export default function Sharing({ navigation, item1, item2 }) {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       for (let i = 0; i < getUserData.length; i++) {
         if (currentUser.email === getUserData[i].email) {
-          const sendMessage = {
+          const message = {
             uri: item1.localUri,
             text: textValue,
             randomNumber: getUserData[i].randomNum,
@@ -35,12 +35,12 @@ export default function Sharing({ navigation, item1, item2 }) {
             receiver: sendToUser,
             senderName: getUserData[i].userName
           };
-          if (getUserData[i].randomNum === sendMessage.receiver) {
+          if (getUserData[i].randomNum === message.receiver) {
             Alert.alert('Oop sorry, something wrong, please reshare it!');
-          } else if (sendMessage !== null) {
+          } else if (message !== null) {
             db.collection('photoMessage')
               .doc()
-              .set(sendMessage);
+              .set(message);
             Alert.alert('Photo shared');
             navigation.navigate('Home');
           }

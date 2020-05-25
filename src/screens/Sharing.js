@@ -17,10 +17,11 @@ if (!global.atob) {
 export default function Sharing({ navigation, item1 }) {
   const [textValue, onChangeText] = useState('');
 
+
   const sendingPhoto = () => {
     const { currentUser } = Firebase.auth();
     const usersData = Firebase.firestore().collection('users');
-    const sendToUser = Math.floor(Math.random() * 3);
+    let receiverRandomNum = Math.floor(Math.random() * 1);
     usersData.get().then((querySnapshot) => {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       for (let i = 0; i < getUserData.length; i++) {
@@ -32,15 +33,17 @@ export default function Sharing({ navigation, item1 }) {
             uid: getUserData[i].uid,
             sender: currentUser.email,
             senderProfilePic: getUserData[i].profilePicture.localUri,
-            receiver: sendToUser,
+            receiver: receiverRandomNum,
             senderName: getUserData[i].userName
           };
           if (getUserData[i].randomNum === message.receiver) {
-            Alert.alert('Oop sorry, something wrong, please reshare it!');
+            // Alert.alert('Oop sorry, something wrong, please reshare it!');
+            receiverRandomNum = Math.floor(Math.random() * 3);
+            sendingPhoto
           } else if (message !== null) {
-            db.collection('photoMessage')
-              .doc()
-              .set(message);
+            // db.collection('photoMessage')
+            //   .doc()
+            //   .set(message);
             Alert.alert('Photo shared');
             navigation.navigate('Home');
           }

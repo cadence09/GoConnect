@@ -42,10 +42,9 @@ import Chat from '../screens/Chat';
   },
   Chat: {
     screen: Chat,
-    navigationOptions: ({navigation }) => ({
+    navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.name.friendsName
     })
-    
   }
 };
 

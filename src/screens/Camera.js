@@ -46,15 +46,15 @@ export default function TakePhoto({ navigation }) {
   }
   const cameraFolder = async () => {
     if (cameraRoll === true) {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const image = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
-      if (result.cancelled === true) {
+      if (image.cancelled === true) {
         return (
           <View />
         );
       }
-      setSeletedImage({ localUri: result.uri });
+      setSeletedImage({ localUri: image.uri });
     } else {
       Alert.alert('Need Permission to access the camera roll, please go to system to grant the permission ');
     }

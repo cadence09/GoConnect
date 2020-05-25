@@ -83,9 +83,9 @@ export default function ShareMessage() {
     });
   };
 
-  const deletePhotoMessage = (index, data) => {
-    console.log('delte data', index, data);
-  };
+  // const deletePhotoMessage = (index, data) => {
+  //   console.log('delte data', index, data);
+  // };
 
   return (
     <View>
@@ -111,7 +111,7 @@ export default function ShareMessage() {
                   {data.text}
                 </Text>
                 <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
-                <Button title="Skip" onPress={() => deletePhotoMessage(i + 1, data)} />
+                {/* <Button title="Skip" onPress={() => deletePhotoMessage(i + 1, data)} /> */}
               </View>
             </ScrollView>
           </View>

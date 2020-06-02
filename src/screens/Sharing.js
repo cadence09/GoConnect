@@ -32,18 +32,19 @@ export default function Sharing({ navigation, item1 }) {
             randomNumber: getUserData[i].randomNum,
             uid: getUserData[i].uid,
             sender: currentUser.email,
+            createdAt: Date.now(),
             senderProfilePic: getUserData[i].profilePicture.localUri,
             receiver: receiverRandomNum,
             senderName: getUserData[i].userName
           };
           if (getUserData[i].randomNum === message.receiver) {
-            // Alert.alert('Oop sorry, something wrong, please reshare it!');
-            receiverRandomNum = Math.floor(Math.random() * 3);
-            sendingPhoto
+            Alert.alert('Oop sorry, something wrong, please reshare it!');
+            // receiverRandomNum = Math.floor(Math.random() * 3);
+            // sendingPhoto
           } else if (message !== null) {
-            // db.collection('photoMessage')
-            //   .doc()
-            //   .set(message);
+            db.collection('photoMessage')
+              .doc()
+              .set(message);
             Alert.alert('Photo shared');
             navigation.navigate('Home');
           }

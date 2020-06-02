@@ -11,12 +11,6 @@ import FriendsRequest from '../screens/FriendsRequest';
 import Chat from '../screens/Chat';
 
  const screens = {
-//   Login: {
-//     screen: LogIn,
-//   },
-//   SignUp: {
-//     screen: SignUp,
-//   },
   Home: {
     screen: Home,
     navigationOptions: {

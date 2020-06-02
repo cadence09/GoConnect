@@ -49,6 +49,18 @@ export default function ShareMessage() {
     });
   }
 
+  if (receivingMessage.length !== 0) {
+    for (let i = 0; i < receivingMessage.length; i++) {
+      if (Math.abs(receivingMessage[i].createdAt - Date.now() > 1)) {
+        const momentList = db.collection('photoMessage').where(receivingMessage[i].createdAt === 'createdAt');
+        momentList.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            doc.ref.delete();
+          });
+        });
+      }
+    }
+  }
 
   const addFriendButton = (index, photoInfo) => {
     const friendsRequestInfo = {

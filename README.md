@@ -1,7 +1,7 @@
 # GoConnect
 
 # Project title
-This app is called GoConnect. It is a text chat application. The purpose of building this app is to bring users who share same connections or feelings togehter. Users can share their beautiful moments with caption, and this moment will be share to random registered users. Any user who received this moment sharing the feeling or or connection can be connected as friends. My app builds a bridge to connect users.
+This app is called GoConnect. It is a social networking application. The purpose of building this app is to bring users who share same connections or feelings togehter. Users can share their beautiful moments with caption, and this moment will be share to random registered users. Any user who received this moment sharing the feeling or or connection can be connected as friends. My app builds a bridge to connect users.
 
 # Motivation
 I inspired by Facebook and Instagram sharing momemts to keep connect with friends and followers.

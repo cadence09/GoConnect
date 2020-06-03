@@ -38,7 +38,8 @@
     "reducer-redux": "^1.2.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "use-force-update": "^1.0.7"
+    "use-force-update": "^1.0.7",
+    "@react-native-community/viewpager": "3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

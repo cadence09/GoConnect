@@ -14,7 +14,7 @@ import Chat from '../screens/Chat';
   Home: {
     screen: Home,
     navigationOptions: {
-      title: 'homepage',
+      title: 'home',
       // headerStyle: { backgroundColor: 'pink' },
     },
   },

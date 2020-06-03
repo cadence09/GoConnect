@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, Image, StyleSheet, ScrollView, Button, Alert
+  View, Text, Image, StyleSheet, Button, Alert, Animated
 } from 'react-native';
+import ViewPager from '@react-native-community/viewpager';
 import Firebase, { db } from '../../config/Firebase';
-
 
 export default function ShareMessage() {
   const [receivingMessage, setReceivingMessage] = useState([]);
   const [user, setUser] = useState('');
   const { currentUser } = Firebase.auth();
+
 
   // Load the photo moments in Firebase
   useEffect(() => {
@@ -95,12 +96,10 @@ export default function ShareMessage() {
     });
   };
 
-  // const deletePhotoMessage = (index, data) => {
-  //   console.log('delte data', index, data);
-  // };
 
   return (
-    <View>
+
+    <ViewPager style={styles.container} initialPage={0}>
 
       {/* First method with if/esle */}
       {/* {Message} */}
@@ -109,41 +108,52 @@ export default function ShareMessage() {
       {receivingMessage.length === 0 ? (<Text> No Message</Text>)
         : receivingMessage.map((data, i) => (
           <View>
-            <ScrollView>
-
-              <View key={i + 1}>
-                <Text>{i + 1}</Text>
-                <Image source={{ uri: data.uri }} style={styles.thumbNail} />
-                <Text>
-                  Message from
-                  {' '}
-                  {data.senderName}
-                </Text>
-                <Text style={styles.message}>
-                  {data.text}
-                </Text>
-                <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
-                {/* <Button title="Skip" onPress={() => deletePhotoMessage(i + 1, data)} /> */}
-              </View>
-            </ScrollView>
+            <Text>{i + 1}</Text>
+            <Image source={{ uri: data.senderProfilePic }} style={styles.profilePic} />
+            <Text style={styles.sender}>
+              {data.senderName}
+              {' '}
+              share a photo moment to you.
+            </Text>
+            <Image source={{ uri: data.uri }} style={styles.thumbNail} />
+            <Text style={styles.message}>
+              {data.senderName}
+              {' '}
+              {data.text}
+            </Text>
+            <Button title="Add Friend" onPress={() => addFriendButton(i + 1, data)} />
           </View>
-
         ))}
-
-    </View>
+    </ViewPager>
   );
 }
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   message: {
-    top: 0
+    top: 0,
+  },
+  profilePic: {
+    borderRadius: 50,
+    height: 50,
+    marginLeft: 10,
+    top: 35,
+    width: 50
+  },
+  sender: {
+    textAlign: 'center',
+
+    top: 10,
+
   },
   thumbNail: {
-    height: 100,
-    resizeMode: 'contain',
-    top: 0,
-    width: 300,
+    height: 300,
+    margin: 30,
+    resizeMode: 'contain'
+
   },
 
 

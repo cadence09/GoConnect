@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint ./src --fix"
+    "lint": "eslint ./src --fix",
+    "test": "jest"
   },
   "dependencies": {
     "@firebase/webchannel-wrapper": "0.2.39",
@@ -50,7 +51,12 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "eslint-plugin-react-native": "^3.8.1"
+    "eslint-plugin-react-native": "^3.8.1",
+    "jest-expo": "^37.0.0",
+    "jest-expo-enzyme": "^1.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo-enzyme"
   },
   "private": true
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, Image, StyleSheet, Button, Alert, Animated
+  View, Text, Image, StyleSheet, Button, Alert,
 } from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
 import Firebase, { db } from '../../config/Firebase';
@@ -8,6 +8,7 @@ import Firebase, { db } from '../../config/Firebase';
 export default function ShareMessage() {
   const [receivingMessage, setReceivingMessage] = useState([]);
   const [user, setUser] = useState('');
+  const [duplicate, setduplicate] = useState([]);
   const { currentUser } = Firebase.auth();
 
 
@@ -17,6 +18,7 @@ export default function ShareMessage() {
     getPhotoMessage.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
       showPhotoMessage(tempDoc);
+      getFriendsList();
     });
   }, []);
 
@@ -63,7 +65,8 @@ export default function ShareMessage() {
     }
   }
 
-  const addFriendButton = (index, photoInfo) => {
+  const addFriendButton = (index, photoInfo,) => {
+    let a = [];
     const friendsRequestInfo = {
       photoSenderEmail: photoInfo.sender,
       photoSenderName: photoInfo.senderName,
@@ -74,27 +77,41 @@ export default function ShareMessage() {
       FriendsRequestUserUid: currentUser.uid,
       FriendsRequestPic: user.userPic
     };
+    a.push(friendsRequestInfo.photoSenderUid, friendsRequestInfo.FriendsRequestUserUid);
+    a = a.sort().join('-');
+
+    const duplicateResult = duplicate.filter((data) => data === a);
+
     const friendsRequestList = Firebase.firestore().collection('beFriendsRequest');
     friendsRequestList.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => doc.data());
-      if (tempDoc.length === 0) {
+
+      if (duplicateResult.length === 1) {
+        Alert.alert('Your already friends');
+      } else if (tempDoc.length === 0 && duplicateResult.length === 0) {
         db.collection('beFriendsRequest')
           .doc()
           .set(friendsRequestInfo);
         Alert.alert('Friend request sent!');
       } else {
-        for (let i = 0; i < tempDoc.length; i++) {
-          if (tempDoc[i].FriendsRequestUserEmail === friendsRequestInfo.FriendsRequestUserEmail) {
-            return Alert.alert('Friend request sent!');
-          }
-          db.collection('beFriendsRequest')
-            .doc()
-            .set(friendsRequestInfo);
-          Alert.alert('Friend request sent!');
-        }
+        Alert.alert('Friend request sent!');
       }
     });
   };
+
+  function getFriendsList() {
+    const friendsList = Firebase.firestore().collection('friends');
+    friendsList.get().then((querySnapshot) => {
+      const friendsListDoc = querySnapshot.docs.map((doc) => doc.data());
+      console.log('friend', typeof friendsListDoc);
+      for (let i = 0; i < friendsListDoc.length; i++) {
+        let newId = [friendsListDoc[i].performerUid, friendsListDoc[i].friendsRequestUserUid];
+        newId = newId.sort().join('-');
+        console.log('what is ths', newId);
+        setduplicate([newId]);
+      }
+    });
+  }
 
 
   return (

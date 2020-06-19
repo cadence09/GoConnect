@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, TouchableOpacity, TextInput, StyleSheet, Image, Button, Alert
 } from 'react-native';
@@ -17,16 +17,20 @@ if (!global.atob) {
 export default function Sharing({ navigation, item1 }) {
   const [textValue, onChangeText] = useState('');
 
+  useEffect(() => {
 
+  }, []);
   const sendingPhoto = () => {
+    let message;
     const { currentUser } = Firebase.auth();
     const usersData = Firebase.firestore().collection('users');
-    let receiverRandomNum = Math.floor(Math.random() * 1);
+    // let receiverRandomNum = Math.floor(Math.random() * 2);
+    const receiverRandomNum = 0;
     usersData.get().then((querySnapshot) => {
       const getUserData = querySnapshot.docs.map((doc) => doc.data());
       for (let i = 0; i < getUserData.length; i++) {
         if (currentUser.email === getUserData[i].email) {
-          const message = {
+          message = {
             uri: item1.localUri,
             text: textValue,
             randomNumber: getUserData[i].randomNum,
@@ -37,21 +41,35 @@ export default function Sharing({ navigation, item1 }) {
             receiver: receiverRandomNum,
             senderName: getUserData[i].userName
           };
-          if (getUserData[i].randomNum === message.receiver) {
-            Alert.alert('Oop sorry, something wrong, please reshare it!');
-            // receiverRandomNum = Math.floor(Math.random() * 3);
-            // sendingPhoto
-          } else if (message !== null) {
-            db.collection('photoMessage')
-              .doc()
-              .set(message);
-            Alert.alert('Photo shared');
-            navigation.navigate('Home');
-          }
         }
+      }
+      if (message.randomNumber === message.receiver) {
+        const newNum = getNewNum(message.randomNumber, message.receiver);
+        console.log('final', newNum);
+        message.receiver = newNum;
+        db.collection('photoMessage')
+          .doc()
+          .set(message);
+        Alert.alert('Photo shared');
+        navigation.navigate('Home');
+      } else if (message !== null) {
+        db.collection('photoMessage')
+          .doc()
+          .set(message);
+        Alert.alert('Photo shared');
+        navigation.navigate('Home');
       }
     });
   };
+
+  function getNewNum(senderNum, receiverNum) {
+    if (senderNum !== receiverNum) {
+      return receiverNum;
+    }
+    receiverNum = Math.floor(Math.random() * 2);
+
+    return getNewNum(senderNum, receiverNum);
+  }
 
   return (
     <View>
